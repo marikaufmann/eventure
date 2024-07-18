@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/mainCommand";
 const Hero = () => {
   return (
-    <div className="relative w-full h-full shadow-2xl shadow-[#CCCCCC] overflow-hidden bg-black">
+    <div className="relative w-full h-full border-b border-gray-800 overflow-hidden bg-black pb-24  xsm:pb-10 md:pb-0 lg:pb-10 xl:pb-0 2xl:pb-20 3xl:pb-0">
       <div className="overflow-hidden">
         <img
           src={`src/assets/hero_background.webp`}
@@ -27,31 +27,23 @@ const Hero = () => {
           className=" md:h-[500px] h-[400px] scale-125 max-w-[1300px] mx-auto  w-full absolute inset-0"
         />
       </div>
-      {/* <div className="absolute inset-0 bg-black/70"> */}
-      <div className="absolute inset-0 bg-black/60">
-        {/* <img
-          src={`${
-            import.meta.env.VITE_CLOUDINARY_ASSETS_URL
-          }/hero_background.jpg`}
-          alt=""
-          className=""
-        /> */}
+      <div className="absolute inset-0 bg-black/60 ">
         <div className=" text-secondary">
           <div className="px-4 lg:py-2 pb-2 ">
             <Navbar />
           </div>
         </div>
-        <h1 className="text-primary md:text-7xl 2xl:text-8xl text-5xl text-center px-6 pt-8 lg:pt-12 2xl:pt-8 font-bold tracking-tighter ">
+        <h1 className="text-primary md:text-7xl 2xl:text-8xl text-5xl text-center px-6 pt-8 lg:pt-12 2xl:pt-8 3xl:pt-10 font-bold tracking-tighter ">
           WHERE MOMENTS BECOME MEMORIES
         </h1>
-        <div className="flex justify-center  px-6 2xl:mt-4 sm:mt-6 mt-4">
+        <div className="flex justify-center 3xl:mt-6  px-6 2xl:mt-4 sm:mt-6 mt-4">
           <p className="text-white780 sm:text-xl tracking-tight max-w-[500px]  text-center w-full">
             From festivals to workshops, find events that make your heart race
             and your soul sing.
           </p>
         </div>
-        <div className="max-w-3xl mx-auto z-[80] w-full sm:px-10 px-4 2xl:mt-10 lg:mt-16 mt-8 h-[50px] ">
-          <Command className="h-full rounded-lg  shadow-2xl shadow-[#FA0C1A]/45  focus-within:shadow-[#FA0C1A]/60 border   ">
+        <div className="max-w-3xl mx-auto z-[80] w-full sm:px-10 px-4 2xl:mt-10 3xl:mt-16  lg:mt-16 mt-8 md:h-[70px] sm:h-[60px] h-[50px]">
+          <Command className="h-full rounded-sm shadow-2xl shadow-[#FA0C1A]/30  focus-within:shadow-[#FA0C1A]/40">
             <CommandInput placeholder="What's happening near you?" />
             {/* <CommandList className="">
               <CommandEmpty>No results found.</CommandEmpty>

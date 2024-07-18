@@ -43,7 +43,7 @@ const Categories = () => {
             <Link
               to={`/categories/${handleLinkFormat(cat.category)}`}
               key={cat.category}
-              className="rounded-md w-full h-[170px] relative overflow-hidden shadow-xl group/image"
+              className="rounded-sm w-full h-[170px] relative overflow-hidden shadow-xl group/image outline outline-2 "
             >
               {loadingState[cat.category] && (
                 <Skeleton className="flex w-full h-full absolute inset-0" />

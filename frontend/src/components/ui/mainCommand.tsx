@@ -13,7 +13,7 @@ const Command = React.forwardRef<
   <CommandPrimitive
     ref={ref}
     className={cn(
-      "flex h-[35px] w-full flex-col overflow-hidden border rounded-md bg-white text-black ",
+      "flex h-[35px] w-full flex-col overflow-hidden border-2  rounded-sm bg-white text-black ",
       className
     )}
     {...props}
@@ -39,16 +39,17 @@ const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-  <div className="flex items-center h-full bg-primary" cmdk-input-wrapper="">
+  <div className="flex items-center h-full " cmdk-input-wrapper="">
+    <Search className=" ml-4 mr-2 md:mr-4 md:h-7 md:w-7 w-5 h-5 shrink-0 " />
+
     <CommandPrimitive.Input
       ref={ref}
       className={cn(
-        "bg-white flex h-full w-full pl-3 py-3   outline-none placeholder:text-muted-foreground  disabled:cursor-not-allowed disabled:opacity-50 ",
+        "bg-white flex h-full w-full pl-3 py-3 outline-none font-medium placeholder:text-black md:text-lg  disabled:cursor-not-allowed disabled:opacity-50 ",
         className
       )}
       {...props}
     />
-    <Search className="mx-4 h-5 w-5 shrink-0 " />
   </div>
 ));
 
@@ -126,10 +127,7 @@ const CommandShortcut = ({
 }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span
-      className={cn(
-        "ml-auto tracking-widest text-muted-foreground",
-        className
-      )}
+      className={cn("ml-auto tracking-widest text-muted-foreground", className)}
       {...props}
     />
   );

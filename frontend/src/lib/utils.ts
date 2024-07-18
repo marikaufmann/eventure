@@ -60,3 +60,4 @@ export const handleLinkFormat = (category: string) => {
 };
 
 
+export const containsOnlyLetters = (str: string) => /^[A-Za-z\s]+$/.test(str);

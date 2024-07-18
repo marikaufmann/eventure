@@ -14,39 +14,36 @@ const CategorySelector = ({
   selectedCategory,
   setSelectedCategory,
   styles,
-  handleSearch,
 }: {
   categoryName: string;
-  selectedCategory: string;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: () => void;
+  selectedCategory: string | undefined;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | undefined>>;
   styles?: string;
 }) => {
   const subcategoriesArray = allCategories.find(
     (cat) => cat.category === handleCapitalize(categoryName as string)
   )?.subcategories;
   useEffect(() => {
-    if (!subcategoriesArray?.includes(selectedCategory)) {
+    if (!subcategoriesArray?.includes(selectedCategory as string)) {
       setSelectedCategory("all");
     }
-    handleSearch();
-  }, [handleSearch, selectedCategory, setSelectedCategory, subcategoriesArray]);
+  }, [selectedCategory, setSelectedCategory, subcategoriesArray]);
   return (
-    <div className="flex-1 w-full ">
-      <Select onValueChange={setSelectedCategory} value={selectedCategory}>
-        <SelectTrigger className={`w-full truncate ${styles} h-full`}>
-          <SelectValue
+    <div className="flex-1 w-full">
+      <Select onValueChange={setSelectedCategory} value={selectedCategory} >
+        <SelectTrigger className={`w-full truncate ${styles} h-full border-black border  rounded-sm text-base `}>
+          <SelectValue 
             placeholder={`All ${handleCapitalize(categoryName as string)}`}
           />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">
+        <SelectContent className=" ">
+          <SelectItem value="all" className="text-base">
             All {handleCapitalize(categoryName as string)}
           </SelectItem>
           {subcategoriesArray?.map((cat) => {
             return (
-              <div key={cat}>
-                <SelectItem value={cat}>{cat}</SelectItem>
+              <div key={cat} className="">
+                <SelectItem className="text-base" value={cat}>{cat}</SelectItem>
               </div>
             );
           })}

@@ -34,8 +34,8 @@ const Register = () => {
     registerUser(data);
   });
   return (
-    <div className="inset-0 fixed bg-black/50 z-[90] flex items-center justify-center">
-      <div className="rounded-lg bg-white max-w-md w-full h-fit px-6 py-12 flex flex-col relative shadow-2xl">
+    <div className="inset-0 fixed bg-black/50 z-[90] flex items-center justify-center max-xsm:px-4">
+      <div className="rounded-sm bg-white max-w-md w-full h-fit px-6 py-12 flex flex-col relative shadow-2xl">
         <button
           className="absolute top-6 right-6 rounded-full bg-gray-100 shadow-2xl p-1 hover:bg-gray-200"
           onClick={() => {
@@ -80,7 +80,7 @@ const Register = () => {
               id="register_firstName"
               autoComplete="given-name"
               aria-label="first name"
-              className="p-2 border w-full rounded-lg border-gray-200 focus:outline-none"
+              className="p-2 border w-full rounded-sm border-gray-200 focus:outline-none"
             />
           </label>
           {errors.firstName && (
@@ -103,7 +103,7 @@ const Register = () => {
               id="register_lastName"
               autoComplete="family-name"
               aria-label="last name"
-              className="p-2 border w-full rounded-lg border-gray-200 focus:outline-none"
+              className="p-2 border w-full rounded-sm border-gray-200 focus:outline-none"
             />
           </label>
           {errors.lastName && (
@@ -122,11 +122,13 @@ const Register = () => {
               id="register_email"
               autoComplete="email"
               aria-label="email"
-              className="p-2 border w-full rounded-lg border-gray-200 focus:outline-none"
+              className="p-2 border w-full rounded-sm border-gray-200 focus:outline-none"
             />
           </label>
           {errors.email && (
-            <div className="text-primary text-sm -mt-1">{errors.email.message}</div>
+            <div className="text-primary text-sm -mt-1">
+              {errors.email.message}
+            </div>
           )}
           <label htmlFor="register_password">
             <h2 className="text-black/80">Password</h2>
@@ -143,7 +145,7 @@ const Register = () => {
               id="register_password"
               autoComplete="new-password"
               aria-label="password"
-              className="p-2 border w-full rounded-lg border-gray-200 focus:outline-none"
+              className="p-2 border w-full rounded-sm border-gray-200 focus:outline-none"
             />
           </label>
           {errors.password && (
@@ -168,7 +170,7 @@ const Register = () => {
               type="password"
               id="register_confirmPassword"
               aria-label="confirm password"
-              className="p-2 border w-full rounded-lg border-gray-200 focus:outline-none"
+              className="p-2 border w-full rounded-sm border-gray-200 focus:outline-none"
             />
           </label>
           {errors.confirmPassword && (
@@ -179,7 +181,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-black text-white rounded-lg h-[60px] flex justify-center items-center hover:bg-black/70 text-lg"
+            className="bg-black text-white rounded-sm h-[60px] flex justify-center items-center hover:bg-black/70 text-lg"
           >
             {isLoading ? <Loader styles={"w-5 h-5"} /> : "Sign up"}
           </button>

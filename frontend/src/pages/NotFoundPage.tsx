@@ -14,14 +14,18 @@ const NotFound = () => {
           </p>
           <Link
             to="/"
-            className="flex items-center gap-2 bg-primary/70 rounded-lg w-[180px] py-2 px-4 justify-center font-medium shadow-lg shadow-primary/25 hover:bg-primary/80 hover:shadow-2xl"
+            className="flex items-center gap-2 bg-primary/70 rounded-sm w-[180px] py-2 px-4 justify-center font-medium shadow-lg shadow-primary/25 hover:bg-primary/80 hover:shadow-2xl"
           >
             <ArrowLeft className="w-4 h-4" />
             Go back home
           </Link>
         </div>
         <div className="max-w-[400px] lg:max-w-[500px]">
-          <img src={`${import.meta.env.VITE_CLOUDINARY_ASSETS_URL}/NotFound.webp`} alt="" className="h-full" />
+          <img
+            src={`${import.meta.env.VITE_CLOUDINARY_ASSETS_URL}/NotFound.webp`}
+            alt=""
+            className="h-full"
+          />
         </div>
       </div>
     </div>

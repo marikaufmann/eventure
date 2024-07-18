@@ -7,24 +7,25 @@ type Category = { category: string; subcategories: string[] };
 const ScrollCategorySelector = ({
   selectedCategory,
   setSelectedCategory,
-  handleSearch,
+  setSubCategory,
 }: {
-  selectedCategory: string;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: () => void;
+  selectedCategory: string | undefined;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSubCategory: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
   const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   const handleCategorySelect = (category: Category) => {
     if (selectedCategory === category.category) {
-      setSelectedCategory("");
+      setSelectedCategory(undefined);
+      setSubCategory(undefined);
     } else {
       setSelectedCategory(category.category);
     }
   };
 
   useEffect(() => {
-    const element = categoryRefs.current[selectedCategory];
+    const element = categoryRefs.current[selectedCategory as string];
     if (element) {
       setTimeout(() => {
         element.focus();
@@ -33,21 +34,20 @@ const ScrollCategorySelector = ({
   }, [selectedCategory]);
 
   return (
-    <ScrollArea className="h-24">
-      <div className="flex w-max space-x-4 p-4">
+    <ScrollArea className="h-24 max-sm:border-t-2 max-sm:border-t-primary">
+      <div className="flex w-max space-x-4 p-4 ">
         {allCategories.map((category) => (
           <button
             ref={(el) => (categoryRefs.current[category.category] = el)}
             onClick={() => {
               handleCategorySelect(category);
-              handleSearch();
             }}
             key={category.category}
             className={` ${
               selectedCategory === category.category
                 ? "bg-primary/50 shadow-lg shadow-primary/25"
                 : ""
-            } overflow-hidden rounded-xl p-4 text-black font-medium bg-primary/20 hover:bg-primary/50 shadow-sm hover:shadow-xl shadow-primary/25 focus:outline-none`}
+            } overflow-hidden rounded-sm p-4 text-black font-medium bg-primary/20 hover:bg-primary/50 shadow-sm hover:shadow-xl shadow-primary/25 focus:outline-none`}
           >
             {category.category}
           </button>

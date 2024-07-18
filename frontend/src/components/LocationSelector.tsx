@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Check, ChevronsUpDown, MapPin } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn, containsOnlyLetters } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -23,13 +23,11 @@ const LocationSelector = ({
   userCity,
   selectedLocation,
   setSelectedLocation,
-  handleSearch,
 }: {
-  userCountry?: string;
-  userCity?: string;
+  userCountry: string | undefined;
+  userCity: string | undefined;
   selectedLocation: string;
   setSelectedLocation: React.Dispatch<React.SetStateAction<string>>;
-  handleSearch: () => void;
 }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -68,8 +66,7 @@ const LocationSelector = ({
 
   useEffect(() => {
     setSelectedLocation(value);
-    handleSearch();
-  }, [value, setSelectedLocation, handleSearch]);
+  }, [value, setSelectedLocation]);
   return (
     <div className="flex-1">
       <Popover open={open} onOpenChange={setOpen}>
@@ -78,7 +75,7 @@ const LocationSelector = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className=" justify-between"
+            className="justify-between flex items-center outline outline-1 text-base shadow rounded-sm"
           >
             {value ? (
               <div className="truncate">
@@ -87,10 +84,13 @@ const LocationSelector = ({
               </div>
             ) : (
               <div className="flex gap-2">
-                <MapPin className="w-4 h-4" />
+                <MapPin className="w-5 h-5" />
                 {selectedLocation
                   ? selectedLocation
-                  : userCity && userCountry
+                  : userCity &&
+                    userCountry &&
+                    containsOnlyLetters(userCity) &&
+                    containsOnlyLetters(userCountry)
                   ? `${userCity}, ${userCountry}`
                   : "All locations"}
               </div>
@@ -104,7 +104,6 @@ const LocationSelector = ({
               placeholder="Search location..."
               onValueChange={(value) => setSearchTerm(value)}
               value={searchTerm}
-              defaultValue={selectedLocation}
             />
             <CommandList>
               <CommandEmpty>No location found.</CommandEmpty>

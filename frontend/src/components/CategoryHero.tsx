@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { useState } from "react";
 import Breadcrumbs from "./Breadcrumbs";
-import { handleCapitalize } from "../lib/utils";
+import { containsOnlyLetters, handleCapitalize } from "../lib/utils";
 import { MapPin } from "lucide-react";
 const CategoryHero = ({
   categoryName,
@@ -11,8 +11,8 @@ const CategoryHero = ({
   selectedLocation,
 }: {
   categoryName: string;
-  userCountry: string;
-  userCity: string;
+  userCountry: string | undefined;
+  userCity: string | undefined;
   selectedLocation: string | undefined;
 }) => {
   const [showPreloader, setShowPreloader] = useState(true);
@@ -117,7 +117,10 @@ const CategoryHero = ({
             Events near{" "}
             {selectedLocation && selectedLocation !== "All locations"
               ? selectedLocation
-              : userCity && userCountry
+              : userCity &&
+                userCountry &&
+                containsOnlyLetters(userCity) &&
+                containsOnlyLetters(userCountry)
               ? `${userCity}, ${userCountry}`
               : "you"}
             {}

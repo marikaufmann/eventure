@@ -113,13 +113,13 @@ const SavedEvents = () => {
             {event.title === "Lana Del Rey" ? (
               <div
                 key={index}
-                className="flex justify-between items-center p-4   shadow-sm rounded-lg gap-8 relative overflow-hidden"
+                className="flex justify-between items-center p-4   shadow-sm rounded-sm gap-8 relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-black/10" />
                 <img
                   src={event.image}
                   alt=""
-                  className="h-full md:w-[240px] w-[120px] rounded-lg"
+                  className="h-full md:w-[240px] w-[120px] rounded-sm"
                 />
                 <div className="flex flex-col justify-between flex-1 truncate">
                   <div className="flex flex-col">
@@ -140,13 +140,13 @@ const SavedEvents = () => {
               <Link
                 to="/"
                 key={index}
-                className="flex justify-between items-center p-4  hover:shadow-lg shadow-sm rounded-lg gap-8"
+                className="flex justify-between items-center p-4  hover:shadow-lg shadow-sm rounded-sm gap-8"
               >
                 <div>
                   <img
                     src={event.image}
                     alt=""
-                    className="h-full md:w-[240px] w-[120px] rounded-lg"
+                    className="h-full md:w-[240px] w-[120px] rounded-sm"
                   />
                 </div>
                 <div className="flex flex-col justify-between flex-1 truncate">

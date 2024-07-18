@@ -28,7 +28,7 @@ import {
   // CommandList,
   // CommandSeparator,
   // CommandShortcut,
-} from "@/components/ui/mainCommand";
+} from "@/components/ui/searchCommand";
 import { Separator } from "./ui/separator";
 
 const Navbar = () => {
@@ -55,7 +55,7 @@ const Navbar = () => {
 
   const wrapStyles = isHomePage ? "" : "text-black lg:py-4 pb-3";
   const buttonStyles = isHomePage
-    ? "bg-white/80 hover:bg-white text-black"
+    ? "bg-white/90 hover:bg-white text-black rounded-sm"
     : "text-white bg-black/90 hover:bg-black";
   const logoStyles = isHomePage
     ? "flex gap-4 items-center"
@@ -73,17 +73,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* {showLoginForm && (
-        <SignIn
-          setIsRegisterOpened={setIsRegisterOpened}
-        />
-      )}
-      {isRegisterOpened && (
-        <Register
-        setShowLoginForm={setShowLoginForm}
-          setIsRegisterOpened={setIsRegisterOpened}
-        />
-      )} */}
       {isMenuOpened ? (
         <CollapsedMenu setIsMenuOpened={setIsMenuOpened} />
       ) : (
@@ -94,7 +83,7 @@ const Navbar = () => {
             <div className="flex lg:gap-8 gap-2 items-center w-full">
               <div className={logoStyles}>
                 <button
-                  className="rounded-full w-10 h-10 bg-black/60 hover:bg-black/40   flex justify-center items-center md:hidden"
+                  className="rounded-full w-10 h-10 bg-black/80 hover:bg-black/40   flex justify-center items-center md:hidden"
                   onClick={() => setIsMenuOpened(true)}
                 >
                   <Icons.MenuIcon className="text-white" />
@@ -124,7 +113,7 @@ const Navbar = () => {
                 //   </AutoComplete>
                 // </div>
                 <div className="lg:hidden px-2 flex w-full ">
-                  <Command className=" rounded-full  text-sm font-normal flex justify-center shadow-2xl  max-w-[500px] shadow-primary/45">
+                  <Command className=" rounded-sm outline-2 outline-primary outline  text-sm font-normal flex justify-center shadow-2xl  max-w-[500px] shadow-primary/45">
                     <CommandInput
                       className=""
                       placeholder="What's happening near you?"
@@ -257,7 +246,7 @@ const Navbar = () => {
                 //   </AutoComplete>
                 // </div>
                 <div className="lg:flex hidden w-full">
-                  <Command className=" rounded-full  text-sm font-normal flex justify-center shadow-2xl shadow-primary/45  max-w-[700px]">
+                  <Command className=" rounded-sm outline-2 outline-primary outline  text-sm font-normal flex justify-center shadow-2xl shadow-primary/45  max-w-[700px]">
                     <CommandInput
                       className=""
                       placeholder="What's happening near you?"
@@ -407,7 +396,7 @@ const Navbar = () => {
                 ) : (
                   <div className="">
                     <button
-                      className={` px-4 ml-2 py-1   rounded-lg lg:flex hidden w-24 items-center justify-center text-lg ${buttonStyles}`}
+                      className={` px-4 ml-2 py-1   rounded-sm lg:flex hidden w-24 items-center justify-center text-lg ${buttonStyles}`}
                       onClick={() => setIsLoginOpened(true)}
                     >
                       Log in
@@ -438,7 +427,7 @@ const ListItem = React.forwardRef<
         <Link
           to={href as string}
           className={cn(
-            "block select-none space-y-1 rounded-md py-2 pl-2 leading-none no-underline outline-none transition-colors hover:bg-primary/40 focus:bg-primary/40 focus:text-primary/40",
+            "block select-none space-y-1 rounded-sm py-2 pl-2 leading-none no-underline outline-none transition-colors hover:bg-primary/40 focus:bg-primary/40 focus:text-primary/40",
             className
           )}
           {...props}

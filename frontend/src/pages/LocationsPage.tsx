@@ -31,7 +31,7 @@ const Locations = () => {
           <Link
             key={country.englishName}
             to={`/locations/${handleLinkFormat(country.englishName)}`}
-            className={`flex justify-between items-center hover:bg-primary/40 pl-2 pr-10 py-6 border-b border-r group/country  transition-all ease-in-out ${
+            className={`flex justify-between items-center hover:bg-primary/40 pl-2 pr-10 py-6 border-b-2 border-r-2 border-black group/country  transition-all ease-in-out ${
               (index + 1) % columns === 0 ? "border-r-0" : ""
             } ${
               index >=
@@ -44,7 +44,7 @@ const Locations = () => {
               <img
                 src={country.icon}
                 alt={country.name}
-                className={`rounded-lg object-cover w-[55px] h-[35px] ${
+                className={`rounded-sm object-cover w-[55px] h-[35px] ${
                   country.name === "United Arab Emirates" && "object-left"
                 }`}
               />

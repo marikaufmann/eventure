@@ -7,7 +7,7 @@ import { useWindowDimentions } from "../hooks/use-window-dimentions";
 import { Skeleton } from "./ui/skeleton";
 import { Heart, SquareArrowOutUpRight } from "lucide-react";
 
-const Slide = ({
+const TrendingSlide = ({
   events,
   setIsOpen,
 }: {
@@ -27,19 +27,23 @@ const Slide = ({
       return { ...prev, [title]: false };
     });
   };
+
   return (
     <Swiper
       cssMode={true}
       spaceBetween={20}
-      slidesPerView={width > 1300 ? 4 : width > 900 ? 3 : width > 450 ? 2 : 1}
+      slidesPerView={width > 900 ? 3 : width > 500 ? 2 : 1}
       navigation={true}
       pagination={{ clickable: true }}
       modules={[Pagination, Navigation, Mousewheel, Keyboard]}
-      className="flex gap-2 w-full h-[300px] px-6 "
+      className="flex gap-2 h-[390px] w-full max-w-[1700px] mx-auto px-10 trending-swiper"
     >
       {events.map((event, index) => (
-        <SwiperSlide key={index} className="group hover:bg-black/5 h-[270px] rounded-sm overflow-hidden border-2 border-black">
-          <div className="h-full w-full relative rounded-sm">
+        <SwiperSlide
+          key={index}
+          className="group rounded-sm  h-[350px] border-white/50 border  overflow-hidden hover:bg-white/5"
+        >
+          <div className="h-full w-full relative  ">
             <div
               className={`${
                 loadingState[event.title]
@@ -47,17 +51,17 @@ const Slide = ({
                   : "hidden"
               }`}
             >
-              <Skeleton className="h-[140px] w-full rounded-none" />
+              <Skeleton className="rounded-none  h-[200px] w-full " />
               <div className="space-y-2">
-                <Skeleton className="h-6 w-full" />
-                <Skeleton className="h-5 w-[250px]" />
-                <Skeleton className="h-4 w-[100px]" />
+                <Skeleton className="h-6 w-full rounded-sm " />
+                <Skeleton className="h-5 w-[250px] rounded-sm" />
+                <Skeleton className="h-5 w-[100px] rounded-sm" />
               </div>
             </div>
             <div
               className={`${
                 loadingState[event.title] ? "opacity-0" : "opacity-100"
-              } transition-opacity duration-500`}
+              } transition-opacity duration-500 `}
             >
               <div className="absolute top-2 right-2 z-[30] transition-all ease-in-out">
                 <div className="flex gap-2">
@@ -73,11 +77,11 @@ const Slide = ({
                 </div>
               </div>
               <Link to="/">
-                <div className="h-[150px] overflow-hidden">
+                <div className="h-[200px] overflow-hidden">
                   <img
                     src={event.image}
                     alt={event.title}
-                    className="w-full h-full object-cover  group-hover:scale-110 transition-all ease-in-out"
+                    className="w-full h-full object-cover rounded-t-sm group-hover:scale-110 transition-all ease-in-out"
                     loading="lazy"
                     onLoad={() => handleImageLoad(event.title)}
                   />
@@ -85,7 +89,7 @@ const Slide = ({
               </Link>
               <Link
                 to="/"
-                className="gap-2 p-2 flex flex-col justify-between rounded-b-lg "
+                className="gap-2 p-2 flex flex-col justify-between rounded-b-lg  text-white"
               >
                 <Helmet>
                   <title>{event.title}</title>
@@ -107,11 +111,11 @@ const Slide = ({
                   <h3 className="text-xl font-semibold truncate">
                     {event.title}
                   </h3>
-                  <p className="text-gray-500 truncate">
+                  <p className=" truncate">
                     {event.date} · {event.venue}
                   </p>
                 </div>
-                <p className="text-gray-800">From ${event.price}</p>
+                <p className="">From ${event.price}</p>
               </Link>
             </div>
           </div>
@@ -121,4 +125,4 @@ const Slide = ({
   );
 };
 
-export default Slide;
+export default TrendingSlide;

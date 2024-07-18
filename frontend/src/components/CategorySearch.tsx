@@ -24,19 +24,17 @@ const CategorySearch = ({
   setSelectedCategory,
   selectedDate,
   setSelectedDate,
-  handleSearch,
 }: {
-  userCountry: string;
-  userCity: string;
+  userCountry: string | undefined;
+  userCity: string | undefined;
   categoryName: string;
   selectedLocation: string;
   setSelectedLocation: React.Dispatch<React.SetStateAction<string>>;
-  selectedCategory: string;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
-  selectedDate: Date | string;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date | string>>;
+  selectedCategory: string | undefined;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | undefined>>;
+  selectedDate: Date | undefined;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   isSubCategoryPage?: boolean;
-  handleSearch: () => void;
 }) => {
   return (
     <div className="flex gap-6 w-full md:flex-row flex-col ">
@@ -45,25 +43,17 @@ const CategorySearch = ({
         userCity={userCity}
         setSelectedLocation={setSelectedLocation}
         selectedLocation={selectedLocation}
-        handleSearch={handleSearch}
       />
       <CategorySelector
         categoryName={categoryName}
         setSelectedCategory={setSelectedCategory}
         selectedCategory={selectedCategory}
-        handleSearch={handleSearch}
+        styles="shadow"
       />
       <DatePicker
         setSelectedDate={setSelectedDate}
         selectedDate={selectedDate}
-        handleSearch={handleSearch}
       />
-      {/* <button
-        onClick={(e) => handleSearch(e)}
-        className="bg-primary flex lg:flex items-center justify-center px-10 rounded-md text-white font-semibold hover:bg-primary/80 w-full md:max-w-[170px] max-md:h-[40px]"
-      >
-        Find Events
-      </button> */}
     </div>
   );
 };

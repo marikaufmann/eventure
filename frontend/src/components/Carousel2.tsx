@@ -1,10 +1,3 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../components/ui/carousel";
 import { useWindowDimentions } from "../hooks/use-window-dimentions";
 import { Link } from "react-router-dom";
 import { Heart, SquareArrowOutUpRight, X } from "lucide-react";
@@ -17,7 +10,7 @@ const Carousel2 = ({ events }: { events: any }) => {
   const { width } = useWindowDimentions();
   const [isOpen, setIsOpen] = useState(false);
   const url =
-    "https://www.eventbrite.com/e/cafe-and-walk-every-friday-in-cafe-c";
+    "";
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url).then(
@@ -36,7 +29,7 @@ const Carousel2 = ({ events }: { events: any }) => {
     <>
       {isOpen && (
         <div className="inset-0 fixed bg-black/50 flex items-center justify-center z-[60]">
-          <div className="rounded-lg bg-white max-w-xl mx-auto h-fit flex flex-col relative shadow-2xl overflow-hidden">
+          <div className="rounded-sm bg-white max-w-xl mx-auto h-fit flex flex-col relative shadow-2xl overflow-hidden">
             <button
               className="absolute top-4 right-4 rounded-full bg-gray-200 shadow-2xl p-1 hover:bg-gray-300"
               onClick={() => {
@@ -56,7 +49,7 @@ const Carousel2 = ({ events }: { events: any }) => {
                 image=""
               />
               <div className="flex items-center mt-6 py-8 px-6 w-full bg-gray-200">
-                <div className="truncate flex items-center px-4 py-3 bg-white rounded-lg">
+                <div className="truncate flex items-center px-4 py-3 bg-white rounded-sm">
                   <a href={url} className="text-gray-700 truncate block ">
                     {url}
                   </a>
@@ -72,15 +65,12 @@ const Carousel2 = ({ events }: { events: any }) => {
           </div>
         </div>
       )}
-      <div className=" mx-auto w-full mt-4 rounded-lg">
+      <div className=" mx-auto w-full mt-4 rounded-sm">
         <Carousel className="w-full">
           <CarouselContent className="-ml-1">
             {events.map((event, index) => (
-              <CarouselItem
-                key={index}
-                className={`pl-1  ${style}`}
-              >
-                <div className="h-full w-full relative rounded-lg group ">
+              <CarouselItem key={index} className={`pl-1  ${style}`}>
+                <div className="h-full w-full relative rounded-sm group ">
                   <div className="absolute top-2 right-2 z-[30] transition-all ease-in-out">
                     <div className="flex gap-2">
                       <button
@@ -147,7 +137,6 @@ const Carousel2 = ({ events }: { events: any }) => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-        
       </div>
     </>
   );

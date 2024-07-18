@@ -98,7 +98,7 @@ const Profile = () => {
       <p className="text-gray-600 text-xl mt-2 font-light  md:px-5">
         Welcome back, {user?.firstName}
       </p>
-      <div className="mt-16 flex flex-col shadow-2xl shadow-primary/10 pt-2  pb-12 rounded-lg  md:px-5 w-[1000px]">
+      <div className="mt-16 flex flex-col shadow-2xl shadow-primary/10 pt-2  pb-12 rounded-sm  md:px-5 w-[1000px]">
         <div>
           <h2 className="text-3xl">Personal information</h2>
           <p className="text-gray-600 font-light">
@@ -143,7 +143,7 @@ const Profile = () => {
                     disabled={!nameEdit}
                     className={`${
                       nameEdit ? "border-primary/50" : "border-primary/20"
-                    } border  w-full rounded-lg flex-1 px-2 h-[40px] focus:outline-primary`}
+                    } border  w-full rounded-sm flex-1 px-2 h-[40px] focus:outline-primary`}
                   />
                   {errors.firstName && (
                     <div className="text-primary text-sm">
@@ -169,7 +169,7 @@ const Profile = () => {
                     disabled={!nameEdit}
                     className={`${
                       nameEdit ? "border-primary/50" : "border-primary/20"
-                    } border  w-full rounded-lg flex-1 px-2 h-[40px] focus:outline-primary`}
+                    } border  w-full rounded-sm flex-1 px-2 h-[40px] focus:outline-primary`}
                   />
                   {errors.lastName && (
                     <div className="text-primary text-sm">
@@ -220,7 +220,7 @@ const Profile = () => {
                 disabled={!emailEdit}
                 className={`${
                   emailEdit ? "border-primary/50" : "border-primary/20"
-                } border  w-full rounded-lg  px-2 h-[40px] focus:outline-primary`}
+                } border  w-full rounded-sm  px-2 h-[40px] focus:outline-primary`}
                 style={{ height: "40px" }}
               />
               {errors.email && (
@@ -251,7 +251,10 @@ const Profile = () => {
             </div>
           </div>
           <div className="flex items-start gap-4 w-full">
-            <label htmlFor="phone" className="flex flex-col gap-2 sm:w-[600px] w-[440px]">
+            <label
+              htmlFor="phone"
+              className="flex flex-col gap-2 sm:w-[600px] w-[440px]"
+            >
               Phone
               <PhoneInputWithCountry
                 control={control}
@@ -267,7 +270,7 @@ const Profile = () => {
                 aria-label="phone number"
                 className={`${
                   phoneEdit ? "border-primary/50" : "border-primary/20"
-                } border  w-full rounded-lg px-2 h-[40px] focus:outline-primary `}
+                } border  w-full rounded-sm px-2 h-[40px] focus:outline-primary `}
               />
               {errors.phone && (
                 <div className="text-primary text-sm">
@@ -323,7 +326,7 @@ const Profile = () => {
                 disabled={!passwordEdit}
                 className={`${
                   passwordEdit ? "border-primary/50" : "border-primary/20"
-                } border  w-full rounded-lg px-2 h-[40px] focus:outline-primary `}
+                } border  w-full rounded-sm px-2 h-[40px] focus:outline-primary `}
                 placeholder={"••••••••••••••••••"}
               />
               {errors.password && (
@@ -357,7 +360,7 @@ const Profile = () => {
         </form>
         <button
           onClick={() => logOut()}
-          className="flex gap-3 items-center bg-black text-white font-medium rounded-lg py-2 px-6 justify-center w-[170px] hover:bg-black/80 shadow-lg mt-16 hover:shadow-xl"
+          className="flex gap-3 items-center bg-black text-white font-medium rounded-sm py-2 px-6 justify-center w-[170px] hover:bg-black/80 shadow-lg mt-16 hover:shadow-xl"
         >
           <LogOut className="rotate-180 h-5 w-5 " /> Log out
         </button>

@@ -6,10 +6,10 @@ import { useState } from "react";
 import ShareButtons from "./ShareButtons";
 import { toast } from "./ui/use-toast";
 
-import Slide from "./Slide";
+import TrendingSlide from "./TrendingSlide";
 import { X } from "lucide-react";
 
-const Carousel = ({ events }: { events: any }) => {
+const TrendingEvents = ({ events }: { events: any }) => {
   const { width } = useWindowDimentions();
   const styles = `flex w-full ${
     width > 1300 ? "basis-1/4" : width > 900 ? "basis-1/3" : "basis-1/2"
@@ -58,7 +58,7 @@ const Carousel = ({ events }: { events: any }) => {
                   </a>
                   <button
                     onClick={copyToClipboard}
-                    className="ml-2 py-2 rounded-sm text-black hover:text-white font-medium px-8   outline outline-2 hover:bg-primary "
+                    className="ml-2 py-2 rounded-sm text-black hover:text-white font-medium px-8 outline-black  outline outline-2 hover:bg-primary "
                   >
                     Copy
                   </button>
@@ -68,11 +68,11 @@ const Carousel = ({ events }: { events: any }) => {
           </div>
         </div>
       )}
-      <div className=" mx-auto w-full mt-4 rounded-sm">
-        <Slide events={events} setIsOpen={setIsOpen} />
+      <div className=" mx-auto w-full mt-4 ">
+        <TrendingSlide events={events} setIsOpen={setIsOpen} />
       </div>
     </>
   );
 };
 
-export default Carousel;
+export default TrendingEvents;

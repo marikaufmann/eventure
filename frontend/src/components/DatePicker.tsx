@@ -22,23 +22,20 @@ const DatePicker = ({
   selectedDate,
   setSelectedDate,
   styles,
-  handleSearch,
 }: {
-  selectedDate: Date | string;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date | string>>;
-  handleSearch: () => void;
+  selectedDate: Date | undefined;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   styles?: string;
 }) => {
   const [date, setDate] = useState<Date | undefined>();
   useEffect(() => {
     setSelectedDate(date as Date);
-    handleSearch();
-  }, [date, setSelectedDate, handleSearch]);
+  }, [date, setSelectedDate]);
   const isDateDisabled = (date: Date) => {
     return isBefore(date, startOfDay(new Date()));
   };
   useEffect(() => {
-    if (isBefore(selectedDate, startOfDay(new Date()))) {
+    if (isBefore(selectedDate as Date, startOfDay(new Date()))) {
       setDate(undefined);
     } else {
       setDate(selectedDate as Date);
@@ -51,13 +48,13 @@ const DatePicker = ({
           <Button
             variant={"outline"}
             className={cn(
-              "w-full justify-between text-left font-normal items-center flex ",
+              "w-full justify-between text-left font-normal items-center flex outline outline-1 shadow rounded-sm",
               styles,
               !date && " text-black font-medium"
             )}
           >
-            <div className="flex items-center font-medium">
-              <CalendarIcon className="mr-2 h-4 w-4 " />
+            <div className="flex items-center font-medium text-base">
+              <CalendarIcon className="mr-2 h-5 w-5 " />
               {date ? (
                 format(date, "PPP")
               ) : (
@@ -67,26 +64,33 @@ const DatePicker = ({
             <ChevronDown className="h-4 w-4 opacity-50 " />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="flex w-full flex-col space-y-2 p-2 ">
+        <PopoverContent className="flex w-full flex-col space-y-2 p-2 text-base outline outline-primary">
           <Select
             onValueChange={(value) =>
               setDate(addDays(new Date(), parseInt(value)))
             }
             value={(date as Date)?.toISOString() || ""}
           >
-            <SelectTrigger>
+            <SelectTrigger className="text-base outline outline-2">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
-            <SelectContent position="popper">
-              <SelectItem value="0">Today</SelectItem>
-              <SelectItem value="1">Tomorrow</SelectItem>
-              <SelectItem value="3">In 3 days</SelectItem>
-              <SelectItem value="7">In a week</SelectItem>
+            <SelectContent position="popper" className="">
+              <SelectItem className="text-base" value="0">
+                Today
+              </SelectItem>
+              <SelectItem className="text-base" value="1">
+                Tomorrow
+              </SelectItem>
+              <SelectItem className="text-base" value="3">
+                In 3 days
+              </SelectItem>
+              <SelectItem className="text-base" value="7">
+                In a week
+              </SelectItem>
             </SelectContent>
           </Select>
-          <div className="rounded-md ">
+          <div className="rounded-sm text-base">
             <Calendar
-              className=""
               mode="single"
               disabled={isDateDisabled}
               selected={date}

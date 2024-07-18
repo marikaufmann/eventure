@@ -6,43 +6,61 @@ import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
 import Events from "../components/Events";
 import { useSearchContext } from "../hooks/use-search-context";
+import { containsOnlyLetters } from "@/lib/utils";
+
 const Category = () => {
   const search = useSearchContext();
   const { data: userLocation } = useQuery(
     "getUserLocation",
     apiClient.fetchUserLocation
   );
-  const [userCountry, setUserCountry] = useState(userLocation?.country?.name);
-  const [userCity, setUserCity] = useState(userLocation?.city?.name);
-  const [category, setCategory] = useState(
-    search.subCategory.length > 0 ? search.subCategory : "all"
+
+  const [userCountry, setUserCountry] = useState<string | undefined>(undefined);
+  const [userCity, setUserCity] = useState<string | undefined>(undefined);
+  const [category, setCategory] = useState<string | undefined>(
+    search.subCategory && search.subCategory.length > 0
+      ? search.subCategory
+      : "all"
   );
-  const [location, setLocation] = useState(search.location);
+  const [location, setLocation] = useState<string>(search.location);
   const [selectedLocation, setSelectedLocation] = useState<string | undefined>(
     undefined
   );
-  const [date, setDate] = useState<Date | string>(search.date);
+  const [date, setDate] = useState<Date | undefined>(search.date);
 
   useEffect(() => {
-    setDate(search.date);
-  }, [search.date]);
-  useEffect(() => {
+    const countryName = userLocation?.country?.name;
+    const cityName = userLocation?.city?.name;
+
     setUserCountry(userLocation?.country?.name);
     setUserCity(userLocation?.city?.name);
     setLocation(
-      search.location.length > 0
+      search.location.length > 0 && search.location !== "All locations"
         ? search.location
-        : userCity && userCountry
+        : cityName &&
+          countryName &&
+          containsOnlyLetters(cityName) &&
+          containsOnlyLetters(countryName)
         ? `${userCity}, ${userCountry}`
         : "All locations"
     );
     setSelectedLocation(
       search.location.length > 0 ? search.location : undefined
     );
-  }, [userCity, userCountry, userLocation]);
+  }, [userLocation, userCity, userCountry]);
+
+  useEffect(() => {
+    search.saveSearchValues(location, category, date, search.category);
+    setSelectedLocation(location);
+  }, [location, category, date]);
+
+  useEffect(() => {
+    setDate(search.date);
+  }, [search.date]);
 
   const path = useLocation();
   const categoryName = path.pathname.split("/")[2];
+
   const events = [
     {
       image:
@@ -93,19 +111,16 @@ const Category = () => {
       price: "73",
     },
   ];
-  const handleSearch = () => {
-    search.saveSearchValues(location, category, date);
-    setSelectedLocation(location);
-  };
+
   return (
-    <div className="bg-background w-full min-h-screen h-full text-black">
+    <div className="bg-background w-full min-h-screen h-full text-black ">
       <CategoryHero
         categoryName={categoryName}
         userCountry={userCountry}
         userCity={userCity}
         selectedLocation={selectedLocation}
       />
-      <div className="mt-[470px] w-full  pb-4 border-b border-gray-200 max-w-[1700px] mx-auto relative">
+      <div className="mt-[470px] w-full pb-4 border-b border-gray-200 max-w-[1700px] mx-auto relative">
         <CategorySearch
           userCountry={userCountry}
           userCity={userCity}
@@ -116,10 +131,9 @@ const Category = () => {
           setSelectedLocation={setLocation}
           selectedDate={date}
           setSelectedDate={setDate}
-          handleSearch={handleSearch}
         />
       </div>
-      <div className="max-w-[1700px] mx-auto py-8">
+      <div className="max-w-[1700px] mx-auto py-8 ">
         <Events
           categoryName={categoryName}
           selectedCategory={category}

@@ -1,37 +1,34 @@
 import { Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./layouts/Layout";
-import Home from "./pages/Home";
 import { Toaster } from "./components/ui/toaster";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import Categories from "./pages/Categories";
-import Category from "./pages/Category";
-import Locations from "./pages/Locations";
-import Location from "./pages/Location";
-import ExpandedEvents from "./pages/ExpandedEvents";
-import ManageEvents from "./pages/ManageEvents";
-import CreateEvent from "./pages/CreateEvent";
-import Profile from "./pages/Profile";
-import SavedEvents from "./pages/SavedEvents";
-import OnlineEvents from "./pages/OnlineEvents";
-import NotFound from "./pages/NotFound";
+import Terms from "./pages/TermsPage";
+import Privacy from "./pages/PrivacyPage";
+import Categories from "./pages/CategoriesPage";
+import Category from "./pages/CategoryPage";
+import Locations from "./pages/LocationsPage";
+import LocationPage from "./pages/LocationPage";
+import ExpandedEventsPage from "./pages/ExpandedEventsPage";
+import ManageEvents from "./pages/ManageEventsPage";
+import CreateEvent from "./pages/CreateEventPage";
+import Profile from "./pages/ProfilePage";
+import SavedEvents from "./pages/SavedEventsPage";
+import OnlineEvents from "./pages/OnlineEventsPage";
+import NotFound from "./pages/NotFoundPage";
 
 function App() {
   return (
     <ScrollToTop>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-
           <Route path="/categories" element={<Categories />} />
           <Route path="/categories/:category" element={<Category />} />
           <Route
             path="/categories/:category/:subcategory"
-            element={<ExpandedEvents />}
+            element={<ExpandedEventsPage />}
           />
           <Route path="/locations" element={<Locations />} />
-          <Route path="/locations/:country" element={<Location />} />
+          <Route path="/locations/:country" element={<LocationPage />} />
           <Route path="/online" element={<OnlineEvents />} />
 
           <Route path="/organize/create-event" element={<CreateEvent />} />

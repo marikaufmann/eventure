@@ -33,8 +33,8 @@ const SignIn = () => {
     login(data);
   });
   return (
-    <div className="inset-0 fixed bg-black/50  flex items-center justify-center z-[60]">
-      <div className="rounded-lg bg-white max-w-md w-full h-fit px-6 py-12 flex flex-col relative shadow-2xl ">
+    <div className="inset-0 fixed bg-black/50  flex items-center justify-center z-[60] max-xsm:px-4">
+      <div className="rounded-sm bg-white max-w-md w-full h-fit px-6 py-12 flex flex-col relative shadow-2xl ">
         <button
           className="absolute top-6 right-6 rounded-full bg-gray-100 shadow-2xl p-1 hover:bg-gray-200"
           onClick={() => {
@@ -60,7 +60,7 @@ const SignIn = () => {
           <FaSignInAlt className="" />
         </div>
         <a href={apiClient.getGoogleOauthUrl(path.pathname)}>
-          <button className="py-3 items-center flex mb-8 gap-2 justify-center font-medium border border-black/50 hover:border-black rounded-md  hover:shadow hover:bg-black/5 text-black w-full">
+          <button className="py-3 items-center flex mb-8 gap-2 justify-center font-medium border border-black/50 hover:border-black rounded-sm  hover:shadow hover:bg-black/5 text-black w-full">
             <img
               className="w-[22px] h-[22px]"
               src={`${import.meta.env.VITE_CLOUDINARY_ASSETS_URL}/google.webp`}
@@ -90,11 +90,13 @@ const SignIn = () => {
               id="login_email"
               aria-label="email"
               autoComplete="email"
-              className="p-2 border w-full rounded-lg border-gray-200 focus:outline-none"
+              className="p-2 border w-full rounded-sm border-gray-200 focus:outline-none"
             />
           </label>
           {errors.email && (
-            <div className="text-primary text-sm -mt-1">{errors.email.message}</div>
+            <div className="text-primary text-sm -mt-1">
+              {errors.email.message}
+            </div>
           )}
           <label htmlFor="login_password">
             <h2 className="text-black/80">Password</h2>
@@ -106,7 +108,7 @@ const SignIn = () => {
               id="login_password"
               aria-label="password"
               autoComplete="password"
-              className="p-2 border w-full rounded-lg border-gray-200 focus:outline-none"
+              className="p-2 border w-full rounded-sm border-gray-200 focus:outline-none"
             />
           </label>
           {errors.password && (
@@ -117,7 +119,7 @@ const SignIn = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-black text-white text-lg flex justify-center items-center hover:shadow rounded-lg h-[60px] hover:bg-black/70"
+            className="bg-black text-white text-lg flex justify-center items-center hover:shadow rounded-sm h-[60px] hover:bg-black/70"
           >
             {isLoading ? <Loader styles={"w-5 h-5"} /> : "Sign in"}
           </button>
