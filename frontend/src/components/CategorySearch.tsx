@@ -1,18 +1,6 @@
-import { countriesObj } from "@/lib/config";
-
 import DatePicker from "./DatePicker";
 import LocationSelector from "./LocationSelector";
 import CategorySelector from "./CategorySelector";
-
-const countriesArray = [];
-Object.keys(countriesObj).forEach((country) => {
-  Object.keys(countriesObj[country]).forEach((city) => {
-    countriesArray.push({
-      value: { country, city },
-      label: `${city}, ${country}`,
-    });
-  });
-});
 
 const CategorySearch = ({
   userCountry,

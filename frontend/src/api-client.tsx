@@ -150,3 +150,42 @@ export const fetchUserLocation = async () => {
   const data = await res.json();
   return data;
 };
+
+export const fetchEvents = async ({
+  name,
+  location,
+  category,
+  venue,
+  date,
+  pageParam,
+  isTopEvents,
+}: {
+  name?: string;
+  location?: string;
+  category?: string;
+  venue?: string;
+  date?: Date;
+  pageParam?: string;
+  isTopEvents?: boolean;
+}) => {
+  const params = {
+    name,
+    location,
+    category,
+    venue,
+    date,
+    pageParam,
+    isTopEvents,
+  };
+  try {
+    const res = await axios.post(`${API_BASE_URI}/api/events`, params, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (err) {
+    throw new Error("Something went wrong, please try again.");
+  }
+};

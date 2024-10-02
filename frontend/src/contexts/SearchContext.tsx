@@ -42,7 +42,6 @@ export const SearchContextProvider = ({
     date: Date | undefined,
     category: string | undefined
   ) => {
-    console.log(location)
     setLocation(location);
     setSubCategory(subCategory);
     setDate(date);

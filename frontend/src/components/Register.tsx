@@ -2,7 +2,7 @@ import { RegisterFormData } from "../types";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as apiClient from "@/api-client";
 import { useToast } from "./ui/use-toast";
 import Loader from "./Loader";
@@ -21,12 +21,12 @@ const Register = () => {
     watch,
     handleSubmit,
   } = useForm<RegisterFormData>();
-  const { mutate: registerUser, isLoading } = useMutation(apiClient.register, {
+  const { mutate: registerUser, isPending } = useMutation({mutationFn: apiClient.register, 
     onError: (err: Error) => {
       toast({ description: err.message, variant: "destructive" });
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries("validateSession");
+      await queryClient.invalidateQueries({queryKey: ["validateSession"]});
       setIsRegisterOpened(false);
     },
   });
@@ -180,10 +180,10 @@ const Register = () => {
           )}
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             className="bg-black text-white rounded-sm h-[60px] flex justify-center items-center hover:bg-black/70 text-lg"
           >
-            {isLoading ? <Loader styles={"w-5 h-5"} /> : "Sign up"}
+            {isPending ? <Loader styles={"w-5 h-5"} /> : "Sign up"}
           </button>
           <p className="text-black/60 text-center">
             Already have an account?&nbsp;

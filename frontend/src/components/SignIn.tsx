@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useToast } from "./ui/use-toast";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoginFormData } from "../types";
 import { useForm } from "react-hook-form";
 import { FaSignInAlt } from "react-icons/fa";
@@ -20,12 +20,13 @@ const SignIn = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<LoginFormData>();
-  const { mutate: login, isLoading } = useMutation(apiClient.logIn, {
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: apiClient.logIn,
     onError: (err: Error) => {
       toast({ description: err.message, variant: "destructive" });
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries("validateSession");
+      await queryClient.invalidateQueries({ queryKey: ["validateSession"] });
       setIsLoginOpened(false);
     },
   });
@@ -118,10 +119,10 @@ const SignIn = () => {
           )}
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             className="bg-black text-white text-lg flex justify-center items-center hover:shadow rounded-sm h-[60px] hover:bg-black/70"
           >
-            {isLoading ? <Loader styles={"w-5 h-5"} /> : "Sign in"}
+            {isPending ? <Loader styles={"w-5 h-5"} /> : "Sign in"}
           </button>
           <p className="text-black/60 text-center">
             Don't have an account?&nbsp;

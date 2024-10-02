@@ -2,34 +2,16 @@ import { allCategories } from "@/lib/config";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { handleLinkFormat } from "@/lib/utils";
+import { getCloudImageLink, handleLinkFormat } from "@/lib/utils";
 const Categories = () => {
   const [loadingState, setLoadingState] = useState(
-    allCategories.reduce((acc, cat) => {
+    allCategories.reduce<Record<string, boolean>>((acc, cat) => {
       acc[cat.category] = true;
       return acc;
     }, {})
   );
-  const getCloudImageLink = (string: string) => {
-    const slashArray = string.split(" / ");
-    const ampersandArray =
-      string.split(" & ").length > 1 ? string.split(" & ") : string.split("&");
-    const spaceArray = string.split(" ");
-    let link = "";
-    if (slashArray.length > 1) {
-      link = slashArray[2]
-        ? `${slashArray[0]}_${slashArray[1]}_${slashArray[2]}`
-        : `${slashArray[0]}_${slashArray[1]}`;
-    } else if (ampersandArray.length > 1) {
-      link = `${ampersandArray[0]}_${ampersandArray[1]}`;
-    } else if (spaceArray.length > 1) {
-      link = `${spaceArray[0]}%20${spaceArray[1]}`;
-    } else {
-      link = string;
-    }
-    return link;
-  };
-  const handleImageLoad = (category) => {
+
+  const handleImageLoad = (category: string) => {
     setLoadingState((prev) => {
       return { ...prev, [category]: false };
     });

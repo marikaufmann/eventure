@@ -4,7 +4,6 @@ import { countries } from "@/lib/config";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { handleCapitalize, handleLinkFormat } from "@/lib/utils";
-import NoEventsFound from "@/components/NoEventsFound";
 import DynamicCategorySelector from "@/components/DynamicCategorySelector";
 import { useSearchContext } from "@/hooks/use-search-context";
 import ExpandedEvents from "@/components/ExpandedEvents";

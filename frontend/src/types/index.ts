@@ -1,3 +1,5 @@
+import { ForwardRefExoticComponent, ReactNode } from "react";
+import * as Icons from "lucide-react";
 export type MusicCategories = {
   [key: string]: string[];
 };
@@ -20,14 +22,6 @@ export type LoginFormData = {
   password: string;
 };
 
-export type IconType = {
-  [key: string]: JSX.Element;
-};
-
-import { ReactNode } from "react";
-import { FlexProps } from "@react-yuki/ui";
-import { ReactIdSwiperProps } from "react-id-swiper";
-
 interface SlideGeneratorOption {
   id?: string;
   content?: string;
@@ -46,16 +40,10 @@ export interface Slide {
   useImageAsTag?: boolean;
 }
 
-export interface SliderProps extends FlexProps {
-  showNav?: boolean;
-  params?: ReactIdSwiperProps | ReactIdSwiperProps[];
-  id?: string;
-  hasImage?: boolean;
-  useImageAsTag?: boolean;
-}
-
-export interface SlideProps extends Slide, Omit<FlexProps, "content"> {}
-
 export interface Colors {
   [key: string]: string | string[];
 }
+
+export type IconComponent =
+  | ForwardRefExoticComponent<Icons.LucideProps>
+  | undefined;

@@ -2,7 +2,7 @@ import CategoryHero from "@/components/CategoryHero";
 import CategorySearch from "@/components/CategorySearch";
 import { useLocation } from "react-router-dom";
 import * as apiClient from "@/api-client";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Events from "../components/Events";
 import { useSearchContext } from "../hooks/use-search-context";
@@ -10,10 +10,14 @@ import { containsOnlyLetters } from "@/lib/utils";
 
 const Category = () => {
   const search = useSearchContext();
-  const { data: userLocation } = useQuery(
-    "getUserLocation",
-    apiClient.fetchUserLocation
-  );
+  const { data: userLocation } = useQuery({
+    queryKey: ["getUserLocation"],
+    queryFn: apiClient.fetchUserLocation,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+  });
 
   const [userCountry, setUserCountry] = useState<string | undefined>(undefined);
   const [userCity, setUserCity] = useState<string | undefined>(undefined);
@@ -61,56 +65,6 @@ const Category = () => {
   const path = useLocation();
   const categoryName = path.pathname.split("/")[2];
 
-  const events = [
-    {
-      image:
-        "https://res.cloudinary.com/dxsxtx313/image/upload/v1717874419/eventure/Sports.webp",
-      title: "Zach Bryan with Jason Isbell & the 400 Unit",
-      date: "Jun 26",
-      venue: "Gillette Stadium",
-      price: "195",
-    },
-    {
-      image:
-        "https://res.cloudinary.com/dxsxtx313/image/upload/v1717874419/eventure/Sports.webp",
-      title: "Lana Del Rey",
-      date: "Jun 20",
-      venue: "Fenway Park",
-      price: "135",
-    },
-    {
-      image:
-        "https://res.cloudinary.com/dxsxtx313/image/upload/v1717874419/eventure/Sports.webp",
-      title: "Nicki Minaj Presents: Pink Friday 2 World Tour",
-      date: "Sep 13",
-      venue: "Rocket Mortgage FieldHouse",
-      price: "73",
-    },
-    {
-      image:
-        "https://res.cloudinary.com/dxsxtx313/image/upload/v1717874419/eventure/Sports.webp",
-      title: "Zach Bryan with Jason Isbell & the 400 Unit",
-      date: "Jun 26",
-      venue: "Gillette Stadium",
-      price: "195",
-    },
-    {
-      image:
-        "https://res.cloudinary.com/dxsxtx313/image/upload/v1717874419/eventure/Sports.webp",
-      title: "Lana Del Rey",
-      date: "Jun 20",
-      venue: "Fenway Park",
-      price: "135",
-    },
-    {
-      image:
-        "https://res.cloudinary.com/dxsxtx313/image/upload/v1717874419/eventure/Sports.webp",
-      title: "Nicki Minaj Presents: Pink Friday 2 World Tour",
-      date: "Sep 13",
-      venue: "Rocket Mortgage FieldHouse",
-      price: "73",
-    },
-  ];
 
   return (
     <div className="bg-background w-full min-h-screen h-full text-black ">
@@ -137,7 +91,8 @@ const Category = () => {
         <Events
           categoryName={categoryName}
           selectedCategory={category}
-          events={events}
+          location={location}
+          date={date}
         />
       </div>
     </div>

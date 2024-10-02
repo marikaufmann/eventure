@@ -2,23 +2,23 @@ import { Link, useLocation } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
+  // NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import React, { useState } from "react";
+import React, { ForwardRefExoticComponent, useState } from "react";
 import * as Icons from "lucide-react";
 import { cn } from "@/lib/utils";
 import { account, mainCategories, locations, organize } from "@/lib/config";
 import { AvatarFallback, AvatarImage, Avatar } from "./ui/avatar";
 import { useAppContext } from "@/hooks/use-app-context";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as apiClient from "@/api-client";
 import { toast } from "./ui/use-toast";
 import CollapsedMenu from "./CollapsedNavbar";
-import { IconType } from "@/types/index";
+import { IconComponent } from "@/types/index";
 import {
   Command,
   CommandInput,
@@ -34,18 +34,24 @@ import { Separator } from "./ui/separator";
 const Navbar = () => {
   const { isLoggedIn, setIsLoginOpened } = useAppContext();
   const queryClient = useQueryClient();
-  const { mutate: logOut } = useMutation(apiClient.logout, {
+  const { mutate: logOut } = useMutation({
+    mutationFn: apiClient.logout,
     onError: (err: Error) => {
       toast({ description: err.message, variant: "destructive" });
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries("validateSession");
+      await queryClient.invalidateQueries({ queryKey: ["validateSession"] });
     },
   });
-  const { data: user } = useQuery(
-    "fetchCurrentUser",
-    apiClient.fetchCurrentUser
-  );
+  const { data: user } = useQuery({
+    queryKey: ["fetchCurrentUser"],
+    queryFn: apiClient.fetchCurrentUser,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+  });
   const location = useLocation();
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const isHomePage = location.pathname === "/";
@@ -164,31 +170,41 @@ const Navbar = () => {
                       <NavigationMenuTrigger className="max-lg:px-4 text-lg">
                         Categories
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className="left-0 ">
+                      <NavigationMenuContent
+                        className={
+                          !isHomePage
+                            ? "lg:left-0 top-12  -right-40 shadow-2xl px-4"
+                            : "left-0 shadow-2xl px-4"
+                        }
+                      >
                         <ul
-                          className="grid w-[360px] gap-2 p-2 md:grid-cols-2 
+                          className="grid laptop:w-[700px] xl:w-[1000px] w-[580px] gap-6 p-4   md:grid-cols-3  
                       "
                         >
                           {mainCategories.map((category) => {
                             const iconKey = category.icon as string;
-                            const Icon = iconKey ? Icons[iconKey] : undefined;
+                            const Icon: IconComponent = iconKey
+                              ? (Icons[
+                                  iconKey as keyof typeof Icons
+                                ] as ForwardRefExoticComponent<Icons.LucideProps>)
+                              : undefined;
                             return (
                               <ListItem
-                                key={category.title} // Add key prop here
+                                key={category.title}
                                 href={category.href}
                                 className={category.className}
                               >
                                 <div
-                                  className={`flex gap-4 ${
+                                  className={`flex gap-4 items-center  ${
                                     category.title === "View all"
                                       ? "text-primary underline underline-offset-4"
-                                      : ""
+                                      : "text-white/90 hover:text-white "
                                   }`}
                                 >
-                                  {Icon && (
-                                    <Icon className="w-5 h-5 text-primary" />
-                                  )}
-                                  <span>{category.title}</span>
+                                  {Icon && <Icon className=" w-5 h-5 " />}
+                                  <span className=" ">
+                                    {category.title.toUpperCase()}
+                                  </span>
                                 </div>
                               </ListItem>
                             );
@@ -200,21 +216,29 @@ const Navbar = () => {
                       <NavigationMenuTrigger className="max-lg:px-0 pr-2 text-lg">
                         Locations
                       </NavigationMenuTrigger>
-                      <NavigationMenuContent className="left-0">
-                        <ul className="grid w-[150px] gap-2 p-2  ">
+                      <NavigationMenuContent
+                        className={
+                          !isHomePage
+                            ? "lg:left-0 top-12  right-0 shadow-2xl"
+                            : "left-0 shadow-2xl"
+                        }
+                      >
+                        <ul className="grid w-[220px] gap-5 p-4  ">
                           {locations.map((location) => {
                             const iconKey = location.icon as string;
-                            const Icon = iconKey ? Icons[iconKey] : undefined;
+                            const Icon: IconComponent = iconKey
+                              ? (Icons[
+                                  iconKey as keyof typeof Icons
+                                ] as ForwardRefExoticComponent<Icons.LucideProps>)
+                              : undefined;
                             return (
                               <ListItem
                                 key={location.title} // Add key prop here
                                 href={location.href}
                               >
-                                <div className="flex gap-4 items-center">
-                                  {Icon && (
-                                    <Icon className="w-5 h-5 text-primary" />
-                                  )}
-                                  <span>{location.title}</span>
+                                <div className="flex gap-4 items-center text-white/90 hover:text-white">
+                                  {Icon && <Icon className=" w-5 h-5" />}
+                                  <span>{location.title.toUpperCase()}</span>
                                 </div>
                               </ListItem>
                             );
@@ -299,21 +323,27 @@ const Navbar = () => {
                         <NavigationMenuTrigger className="max-lg:pr-3 max-lg:pl-3 text-lg">
                           Organize
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent className="right-0">
-                          <ul className="grid w-[200px] gap-2 p-2 ">
+                        <NavigationMenuContent
+                          className={` ${
+                            !isHomePage && "top-12 "
+                          } right-0 shadow-2xl`}
+                        >
+                          <ul className="grid w-[240px] gap-5 p-4   ">
                             {organize.map((category) => {
                               const iconKey = category.icon as string;
-                              const Icon = iconKey ? Icons[iconKey] : undefined;
+                              const Icon: IconComponent = iconKey
+                              ? (Icons[
+                                  iconKey as keyof typeof Icons
+                                ] as ForwardRefExoticComponent<Icons.LucideProps>)
+                              : undefined;
                               return (
                                 <ListItem
-                                  key={category.title} // Add key prop here
+                                  key={category.title}  
                                   href={category.href}
                                 >
-                                  <div className="flex gap-4 items-center">
-                                    {Icon && (
-                                      <Icon className="w-5 h-5 text-primary" />
-                                    )}
-                                    <span>{category.title}</span>
+                                  <div className="flex gap-4 items-center text-white/90 hover:text-white">
+                                    {Icon && <Icon className=" w-5 h-5" />}
+                                    <span>{category.title.toUpperCase()}</span>
                                   </div>
                                 </ListItem>
                               );
@@ -341,13 +371,19 @@ const Navbar = () => {
                               </AvatarFallback>
                             </Avatar>
                           </NavigationMenuTrigger>
-                          <NavigationMenuContent className="right-0">
-                            <ul className="grid w-[170px] gap-2 p-2 ">
+                          <NavigationMenuContent
+                            className={` ${
+                              !isHomePage && "top-14 "
+                            } right-0 shadow-2xl`}
+                          >
+                            <ul className="grid  w-[240px] gap-4 p-4 ">
                               {account.map((category) => {
                                 const iconKey = category.icon as string;
-                                const Icon = iconKey
-                                  ? Icons[iconKey]
-                                  : undefined;
+                                const Icon: IconComponent = iconKey
+                              ? (Icons[
+                                  iconKey as keyof typeof Icons
+                                ] as ForwardRefExoticComponent<Icons.LucideProps>)
+                              : undefined;
                                 return (
                                   <div key={category.title}>
                                     {category.title === "Log out" ? (
@@ -362,11 +398,13 @@ const Navbar = () => {
                                             className=""
                                             onClick={() => logOut()}
                                           >
-                                            <div className="flex gap-4 items-center">
+                                            <div className="flex gap-4 items-center text-white/90 hover:text-white">
                                               {Icon && (
-                                                <Icon className="w-5 h-5 text-primary rotate-180" />
+                                                <Icon className=" w-5 h-5 rotate-180" />
                                               )}
-                                              <span>{category.title}</span>
+                                              <span>
+                                                {category.title.toUpperCase()}
+                                              </span>
                                             </div>
                                           </button>
                                         </ListItem>
@@ -376,11 +414,13 @@ const Navbar = () => {
                                         key={category.title}
                                         href={category.href}
                                       >
-                                        <div className="flex gap-4 items-center">
+                                        <div className="flex gap-4 items-center text-white/90 hover:text-white">
                                           {Icon && (
-                                            <Icon className="w-5 h-5 text-primary" />
+                                            <Icon className=" w-5 h-5" />
                                           )}
-                                          <span>{category.title}</span>
+                                          <span>
+                                            {category.title.toUpperCase()}
+                                          </span>
                                         </div>
                                       </ListItem>
                                     )}

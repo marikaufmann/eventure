@@ -1,7 +1,6 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { useWindowDimentions } from "@/hooks/use-window-dimentions";
 import { useState } from "react";
 import ShareButtons from "./ShareButtons";
 import { toast } from "./ui/use-toast";
@@ -9,14 +8,33 @@ import { toast } from "./ui/use-toast";
 import TrendingSlide from "./TrendingSlide";
 import { X } from "lucide-react";
 
-const TrendingEvents = ({ events }: { events: any }) => {
-  const { width } = useWindowDimentions();
-  const styles = `flex w-full ${
-    width > 1300 ? "basis-1/4" : width > 900 ? "basis-1/3" : "basis-1/2"
-  }  gap-2`;
+const TrendingEvents = ({
+  location,
+  setIsFetchedEventsForUsersLocation,
+  setIsFetchedEventsForUsersCapitalLocation,
+  setIsFetchedEventsForManualUsersLocation,
+  setIsFetchedEventsForManualUsersCapitalLocation,
+  setHasTrendingEvents,
+  locationFetchStatus,
+}: {
+  location: string;
+  setIsFetchedEventsForUsersLocation: React.Dispatch<
+    React.SetStateAction<boolean | undefined>
+  >;
+  setIsFetchedEventsForUsersCapitalLocation: React.Dispatch<
+    React.SetStateAction<boolean | undefined>
+  >;
+  setIsFetchedEventsForManualUsersLocation: React.Dispatch<
+    React.SetStateAction<boolean | undefined>
+  >;
+  setIsFetchedEventsForManualUsersCapitalLocation: React.Dispatch<
+    React.SetStateAction<boolean | undefined>
+  >;
+  setHasTrendingEvents: React.Dispatch<React.SetStateAction<boolean>>;
+  locationFetchStatus: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const url =
-    "";
+  const url = "";
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url).then(
@@ -68,8 +86,26 @@ const TrendingEvents = ({ events }: { events: any }) => {
           </div>
         </div>
       )}
+
       <div className=" mx-auto w-full mt-4 ">
-        <TrendingSlide events={events} setIsOpen={setIsOpen} />
+        <TrendingSlide
+          location={location}
+          setIsOpen={setIsOpen}
+          setIsFetchedEventsForUsersLocation={
+            setIsFetchedEventsForUsersLocation
+          }
+          setIsFetchedEventsForUsersCapitalLocation={
+            setIsFetchedEventsForUsersCapitalLocation
+          }
+          setIsFetchedEventsForManualUsersLocation={
+            setIsFetchedEventsForManualUsersLocation
+          }
+          setIsFetchedEventsForManualUsersCapitalLocation={
+            setIsFetchedEventsForManualUsersCapitalLocation
+          }
+          setHasTrendingEvents={setHasTrendingEvents}
+          locationFetchStatus={locationFetchStatus}
+        />
       </div>
     </>
   );

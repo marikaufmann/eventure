@@ -2,7 +2,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { useState } from "react";
 import Breadcrumbs from "./Breadcrumbs";
-import { containsOnlyLetters, handleCapitalize } from "../lib/utils";
+import {
+  containsOnlyLetters,
+  getCloudImageLink,
+  handleCapitalize,
+} from "../lib/utils";
 import { MapPin } from "lucide-react";
 const CategoryHero = ({
   categoryName,
@@ -16,49 +20,6 @@ const CategoryHero = ({
   selectedLocation: string | undefined;
 }) => {
   const [showPreloader, setShowPreloader] = useState(true);
-
-  const getCloudImageLink = (string: string) => {
-    const slashArray = string.split("+%2F+");
-    const ampersandArray = string.split("+%26+");
-    const spaceArray = string.split("%20");
-    let link = "";
-    if (slashArray.length > 1) {
-      link = slashArray[2]
-        ? `${slashArray[0].charAt(0).toUpperCase() + slashArray[0].slice(1)}_${
-            slashArray[1].charAt(0).toUpperCase() + slashArray[1].slice(1)
-          }_${slashArray[2].charAt(0).toUpperCase() + slashArray[2].slice(1)}`
-        : `${slashArray[0].charAt(0).toUpperCase() + slashArray[0].slice(1)}_${
-            slashArray[1].charAt(0).toUpperCase() + slashArray[1].slice(1)
-          }`;
-    } else if (ampersandArray.length > 1) {
-      link = ampersandArray[2]
-        ? `${ampersandArray[0]
-            .charAt(0)
-            .toUpperCase()} ${ampersandArray[0].slice(1)}_${ampersandArray[1]
-            .charAt(0)
-            .toUpperCase()} ${ampersandArray[1].slice(1)}_${ampersandArray[2]
-            .charAt(0)
-            .toUpperCase()}_${ampersandArray[2].slice(1)}`
-        : `${
-            ampersandArray[0].charAt(0).toUpperCase() +
-            ampersandArray[0].slice(1)
-          }_${
-            ampersandArray[1].charAt(0).toUpperCase() +
-            ampersandArray[1].slice(1)
-          }`;
-    } else if (spaceArray.length > 1) {
-      link = spaceArray[2]
-        ? `${spaceArray[0].charAt(0).toUpperCase() + spaceArray[0].slice(1)} ${
-            spaceArray[1].charAt(0).toUpperCase() + spaceArray[1].slice(1)
-          } ${spaceArray[2].charAt(0).toUpperCase() + spaceArray[2].slice(1)}`
-        : `${spaceArray[0].charAt(0).toUpperCase() + spaceArray[0].slice(1)} ${
-            spaceArray[1].charAt(0).toUpperCase() + spaceArray[1].slice(1)
-          }`;
-    } else {
-      link = string;
-    }
-    return link;
-  };
 
   const styles = showPreloader ? "flex w-full h-full" : "hidden";
 

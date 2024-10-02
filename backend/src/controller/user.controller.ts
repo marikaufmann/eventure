@@ -17,7 +17,6 @@ import {
   EditUserRequest,
 } from "../lib/validators/userValidator";
 import { signJwt } from "../lib/utils/jwt";
-import { MongoServerError } from "mongodb";
 import bcrypt from 'bcryptjs';
 
 const accessTokenCookieOptions: CookieOptions = {

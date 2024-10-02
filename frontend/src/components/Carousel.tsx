@@ -1,23 +1,18 @@
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { useWindowDimentions } from "@/hooks/use-window-dimentions";
 import { useState } from "react";
 import ShareButtons from "./ShareButtons";
 import { toast } from "./ui/use-toast";
 
 import Slide from "./Slide";
 import { X } from "lucide-react";
+import { FetchedEventType } from "../../../backend/src/shared/types";
+import { UseQueryResult } from "@tanstack/react-query";
 
-const Carousel = ({ events }: { events: any }) => {
-  const { width } = useWindowDimentions();
-  const styles = `flex w-full ${
-    width > 1300 ? "basis-1/4" : width > 900 ? "basis-1/3" : "basis-1/2"
-  }  gap-2`;
+const Carousel = ({ data }: { data: UseQueryResult<FetchedEventType[]>   }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const url =
-    "";
-
+  const url = "";
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url).then(
       () => {
@@ -69,7 +64,7 @@ const Carousel = ({ events }: { events: any }) => {
         </div>
       )}
       <div className=" mx-auto w-full mt-4 rounded-sm">
-        <Slide events={events} setIsOpen={setIsOpen} />
+        <Slide data={data} setIsOpen={setIsOpen} />
       </div>
     </>
   );

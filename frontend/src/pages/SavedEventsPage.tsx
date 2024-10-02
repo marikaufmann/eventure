@@ -7,13 +7,12 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
 
 const SavedEvents = () => {
-  const { isLoggedIn, setShowLoginForm } = useAppContext();
+  const { isLoggedIn, setIsLoginOpened } = useAppContext();
   const [selectedValue, setSelectedValue] = useState("Show all");
   const events = [
     {
@@ -70,11 +69,11 @@ const SavedEvents = () => {
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/");
-      setShowLoginForm(true);
+      setIsLoginOpened(true);
     }
   }, [isLoggedIn]);
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = (value: string) => {
     setSelectedValue(value);
   };
   useEffect(() => {

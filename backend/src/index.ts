@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response, urlencoded } from "express";
+import express, { Request, Response, urlencoded } from "express";
 import "dotenv/config";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
@@ -10,6 +10,7 @@ import { dbConn } from "./config/dbConn";
 import { corsOptions } from "./config/corsOptions";
 import usersRoutes from "./routes/users.route";
 import authRoutes from "./routes/sessions.route";
+import eventsRoutes from "./routes/events.route";
 import { deserializeUser } from "./middleware/deserializeUser";
 import { errorHandler } from "./middleware/errorHandler";
 
@@ -35,9 +36,10 @@ app.use(deserializeUser);
 
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/events", eventsRoutes);
 
 app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../frontend/index.html"));
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
 });
 
 app.use(errorHandler);

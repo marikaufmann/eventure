@@ -26,7 +26,7 @@ const Locations = () => {
   return (
     <div className="bg-background w-full min-h-screen h-full flex flex-col text-black max-w-[1700px] mx-auto pb-32 pt-5">
       <h1 className="text-4xl font-bold mb-6">All Countries</h1>
-      <div className={`grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 text-xl`}>
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 text-xl">
         {countries.map((country, index) => (
           <Link
             key={country.englishName}

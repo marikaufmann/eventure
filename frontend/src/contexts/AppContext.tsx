@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import * as apiClient from "@/api-client";
 import Toast from "@/components/Toast";
 import SignIn from "@/components/SignIn";
@@ -31,8 +31,15 @@ export const AppContextProvider = ({
   const [isLoginOpened, setIsLoginOpened] = useState<boolean>(false);
   const [isRegisterOpened, setIsRegisterOpened] = useState<boolean>(false);
   const [isFormClosed, setIsFormClosed] = useState<boolean>(false);
-  const { isError } = useQuery("validateSession", apiClient.validateSession, {
+  const { isError } = useQuery({
+    queryKey: ["validateSession"],
+    queryFn: apiClient.validateSession,
     retry: false,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
   });
   return (
     <AppContext.Provider
@@ -49,10 +56,7 @@ export const AppContextProvider = ({
     >
       {children}
       {isLoginOpened && <SignIn />}
-      {isRegisterOpened && (
-        <Register        
-        />
-      )}
+      {isRegisterOpened && <Register />}
       {toast && (
         <div className="z-50 absolute bottom-5 right-5">
           <Toast

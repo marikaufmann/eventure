@@ -70,8 +70,9 @@ module.exports = {
       },
       screens: {
         laptop: "837px",
-        '3xl': "1690px",
-        'xsm': '500px'
+        "3xl": "1690px",
+        xsm: "500px",
+        laptopLg: "970px",
       },
     },
   },

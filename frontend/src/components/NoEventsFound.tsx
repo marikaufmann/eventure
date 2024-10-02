@@ -1,13 +1,16 @@
-import { Frown } from 'lucide-react'
-
 const NoEventsFound = () => {
   return (
     <div className="pt-32">
-    <h1 className="font-medium text-xl flex gap-1 items-center justify-center">
-      Sorry, we couldn't find any events for your selection <Frown />
-    </h1>
-  </div>
-  )
-}
+      <div className="font-medium flex flex-col gap-4 mx-auto items-center justify-center ">
+        <h1 className=" laptop:text-2xl text-lg ">
+          We couldn't find any events that match your selected criteria.
+        </h1>
+        <p className="text-lg laptop:text-xl text-gray-600 ">
+          Please adjust your filters to discover available events.
+        </p>
+      </div>
+    </div>
+  );
+};
 
-export default NoEventsFound
+export default NoEventsFound;

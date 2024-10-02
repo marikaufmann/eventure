@@ -7,12 +7,14 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  logEvents(
-    `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
-    "errLog.log"
-  );
-  console.log(err.stack);
-  const status = res.statusCode ?? 500;
-  return res.status(status).json({ message: err.message });
+  if (err) {
+    logEvents(
+      `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
+      "errLog.log"
+    );
+    console.log(err.stack);
+    const status = res.statusCode ?? 500;
+    return res.status(status).json({ message: err.message });
+  }
+  return next();
 };
-

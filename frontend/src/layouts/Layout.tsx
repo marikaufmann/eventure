@@ -9,7 +9,6 @@ const Layout = () => {
     <div className="min-h-screen h-full w-full bg-background flex flex-col shadow-2xl shadow-blue-50   font-walsheim overflow-hidden">
       {location.pathname === "/" ? (
         <div className="flex flex-col">
-          {" "}
           <Hero /> <Home />
         </div>
       ) : (

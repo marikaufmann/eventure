@@ -1,6 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as apiClient from "@/api-client";
-import { UserType } from "../../../backend/src/shared/types";
 import { LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../hooks/use-app-context";
@@ -19,24 +18,30 @@ const Profile = () => {
   const [phoneEdit, setPhoneEdit] = useState(false);
   const [passwordEdit, setPasswordEdit] = useState(false);
 
-  const { data: user, refetch } = useQuery<UserType>(
-    "fetchCurrentUser",
-    apiClient.fetchCurrentUser
-  );
-
+  const { data: user, refetch } = useQuery({
+    queryKey: ["fetchCurrentUser"],
+    queryFn: apiClient.fetchCurrentUser,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+  });
   const queryClient = useQueryClient();
 
-  const { mutate: logOut } = useMutation(apiClient.logout, {
+  const { mutate: logOut } = useMutation({
+    mutationFn: apiClient.logout,
     onError: (err: Error) => {
       toast({ description: err.message, variant: "destructive" });
     },
     onSuccess: async () => {
       navigate("/");
-      await queryClient.invalidateQueries("validateSession");
+      await queryClient.invalidateQueries({ queryKey: ["validateSession"] });
     },
   });
 
-  const { mutate: editUser } = useMutation(apiClient.editUserData, {
+  const { mutate: editUser } = useMutation({
+    mutationFn: apiClient.editUserData,
     onError: (err: Error) => {
       toast({ description: err.message, variant: "destructive" });
     },

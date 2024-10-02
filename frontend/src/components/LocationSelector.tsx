@@ -16,7 +16,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { countriesObj } from "@/lib/config";
+import {
+  fullCountriesObject,
+  popularCitiesAndCountries,
+  popularCitiesByCountry,
+} from "@/lib/config";
 import Fuse from "fuse.js";
 const LocationSelector = ({
   userCountry,
@@ -34,7 +38,7 @@ const LocationSelector = ({
   const [searchTerm, setSearchTerm] = useState("");
   const locationsArray = useMemo(
     () =>
-      Object.entries(countriesObj).flatMap(([country, cities]) =>
+      Object.entries(fullCountriesObject).flatMap(([country, cities]) =>
         Object.keys(cities).map((city) => ({
           value: `${city}, ${country}`,
           label: `${city}, ${country}`,
@@ -42,27 +46,68 @@ const LocationSelector = ({
       ),
     []
   );
-  const fuse = new Fuse(locationsArray, { keys: ["label"], threshold: 0.3 });
+  const fuse = useMemo(() => {
+    return new Fuse(locationsArray, { keys: ["label"], threshold: 0.3 });
+  }, [locationsArray]);
 
   const filteredLocations = useMemo(() => {
+    const worldCapitalsLocations = locationsArray
+      .filter((location) => popularCitiesAndCountries.includes(location.label))
+      .sort(
+        (a, b) =>
+          popularCitiesAndCountries.indexOf(a.label) -
+          popularCitiesAndCountries.indexOf(b.label)
+      );
+    const nonCapitalLocations = locationsArray.filter(
+      (location) => !popularCitiesAndCountries.includes(location.label)
+    );
+
     if (!userCountry) {
-      return locationsArray;
+      return [...worldCapitalsLocations, ...nonCapitalLocations];
     }
     const userCountryLocations = locationsArray.filter(
       (location) => location.label.split(", ")[1] === userCountry
     );
-    const otherLocations = locationsArray.filter(
-      (location) => location.label.split(", ")[1] !== userCountry
+    const otherLocations = nonCapitalLocations.filter(
+      (location) => !userCountryLocations.includes(location)
     );
-    return [...userCountryLocations, ...otherLocations];
+    return [
+      ...userCountryLocations,
+      ...worldCapitalsLocations,
+      ...otherLocations,
+    ];
   }, [locationsArray, userCountry]);
 
-  const results = searchTerm
-    ? fuse
+  const results = useMemo(() => {
+    if (searchTerm) {
+      const matchingCountry = Object.keys(popularCitiesByCountry).find(
+        (country) => country.toLowerCase().startsWith(searchTerm.toLowerCase())
+      );
+
+      const popularCities = matchingCountry
+        ? popularCitiesByCountry[
+            matchingCountry as keyof typeof popularCitiesByCountry
+          ]
+        : [];
+
+      const popularCityResults = popularCities.map((city) => ({
+        value: `${city}, ${matchingCountry}`,
+        label: `${city}, ${matchingCountry}`,
+      }));
+
+      const otherResults = fuse
         .search(searchTerm)
-        .slice(0, 8)
         .map(({ item }) => item)
-    : filteredLocations.slice(0, 8);
+        .filter(
+          (location) => !popularCities.includes(location.value.split(", ")[0])
+        )
+        .slice(0, 8 - popularCityResults.length);
+
+      return [...popularCityResults, ...otherResults];
+    } else {
+      return filteredLocations.slice(0, 8);
+    }
+  }, [searchTerm, fuse, filteredLocations]);
 
   useEffect(() => {
     setSelectedLocation(value);
