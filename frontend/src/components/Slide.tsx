@@ -16,7 +16,7 @@ const Slide = ({
   data,
   setIsOpen,
 }: {
-  data: UseQueryResult<FetchedEventType[]> 
+  data: UseQueryResult<FetchedEventType[]>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const events = data?.data;
@@ -28,10 +28,13 @@ const Slide = ({
   useEffect(() => {
     if (events) {
       setLoadingState(
-        events.reduce<Record<string, boolean>>((acc, event: FetchedEventType) => {
-          acc[event.name] = true;
-          return acc;
-        }, {})
+        events.reduce<Record<string, boolean>>(
+          (acc, event: FetchedEventType) => {
+            acc[event.name] = true;
+            return acc;
+          },
+          {}
+        )
       );
     }
   }, [events]);
@@ -52,7 +55,6 @@ const Slide = ({
       modules={[Pagination, Navigation, Mousewheel, Keyboard]}
       className="flex gap-2 w-full h-[300px] px-6 "
     >
-      {/* {!events */}
       {isFetching || !events
         ? [...Array(6)].map((_, index) => (
             <SwiperSlide
@@ -107,7 +109,11 @@ const Slide = ({
                       </button>
                     </div>
                   </div>
-                  <Link to="/">
+                  <Link
+                    to={`/event/${encodeURIComponent(
+                      event.location
+                    )}/${encodeURIComponent(event.id)}`}
+                  >
                     <div className="h-[150px] overflow-hidden">
                       <img
                         src={event.image}
@@ -119,7 +125,9 @@ const Slide = ({
                     </div>
                   </Link>
                   <Link
-                    to="/"
+                    to={`/event/${encodeURIComponent(
+                      event.location
+                    )}/${encodeURIComponent(event.id)}`}
                     className="gap-2 p-2 flex flex-col justify-between rounded-b-lg "
                   >
                     <Helmet>

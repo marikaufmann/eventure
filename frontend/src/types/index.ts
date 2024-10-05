@@ -47,3 +47,4 @@ export interface Colors {
 export type IconComponent =
   | ForwardRefExoticComponent<Icons.LucideProps>
   | undefined;
+

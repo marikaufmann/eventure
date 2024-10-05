@@ -5,12 +5,9 @@ import {
   GetEventRequest,
   GetEventsRequest,
 } from "../lib/validators/eventValidator";
-import { fetchAndCacheEvents } from "../service/event.service";
+import { fetchAndCacheEvents, findEvent } from "../service/event.service";
 
-export const getEvents = async (
-  req: Request,
-  res: Response
-) => {
+export const getEvents = async (req: Request, res: Response) => {
   try {
     const response = await fetchAndCacheEvents(req.body);
     res.status(200).json(response);
@@ -34,10 +31,17 @@ export const createEvent = async (
 };
 
 export const getEvent = async (
-  req: Request<GetEventRequest["params"]>,
+  req: Request<GetEventRequest["params"], {}, GetEventRequest["body"]>,
   res: Response
 ) => {
   try {
+    const { location } = req.body;
+    const eventId = req.params.eventId;
+    const event = await findEvent({ location, eventId });
+    if (!event) {
+      return res.status(404).json({ message: "Event not found." });
+    }
+    return res.status(200).json(event);
   } catch (err: any) {
     return res
       .status(500)

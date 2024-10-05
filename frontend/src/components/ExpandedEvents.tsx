@@ -218,7 +218,9 @@ const ExpandedEvents = ({
                           </p>
                           <div className="xsm:hidden flex flex-col justify-between mt-2">
                             <Link
-                              to={`/`}
+                              to={`/event/${encodeURIComponent(
+                                event.location
+                              )}/${encodeURIComponent(event.id)}`}
                               className={`${
                                 isLoading ? "invisible" : "visible"
                               } bg-black font-medium text-white flex justify-center items-center h-[40px] w-[120px] rounded-sm  hover:shadow-black/40 hover:shadow`}
@@ -229,7 +231,9 @@ const ExpandedEvents = ({
                         </div>
                         <div className="xsm:flex hidden flex-col justify-between py-4 gap-4">
                           <Link
-                            to={`/`}
+                            to={`/event/${encodeURIComponent(
+                              event.location
+                            )}/${encodeURIComponent(event.id)}`}
                             className={`${
                               isLoading ? "invisible" : "visible"
                             } bg-black font-semibold text-white flex justify-center items-center h-[40px] w-[120px] rounded-sm  hover:shadow-black/40 hover:shadow max-md:text-sm max-md:w-[100px]`}
@@ -305,7 +309,9 @@ const ExpandedEvents = ({
                           </p>
                           <div className="xsm:hidden flex flex-col justify-between mt-2 ">
                             <Link
-                              to={`/`}
+                              to={`/event/${encodeURIComponent(
+                        event.location
+                      )}/${encodeURIComponent(event.id)}`}
                               className={`${
                                 isLoading ? "invisible" : "visible"
                               } bg-black font-medium text-white flex justify-center items-center h-[40px] w-[120px] rounded-sm  hover:shadow-black/40 hover:shadow `}
@@ -316,7 +322,9 @@ const ExpandedEvents = ({
                         </div>
                         <div className="xsm:flex hidden flex-col justify-between py-4 gap-4">
                           <Link
-                            to={`/`}
+                            to={`/event/${encodeURIComponent(
+                        event.location
+                      )}/${encodeURIComponent(event.id)}`}
                             className={`${
                               isLoading ? "invisible" : "visible"
                             } bg-black font-semibold text-white flex justify-center items-center h-[40px] w-[120px] rounded-sm  hover:shadow-black/40 hover:shadow max-md:text-sm max-md:w-[100px]`}

@@ -55,7 +55,7 @@ const TrendingSlide = ({
     queryFn: () => apiClient.fetchEvents({ location, isTopEvents: true }),
     enabled: location !== "",
   });
-  
+
   useEffect(() => {
     if (isError) {
       setHasTrendingEvents(false);
@@ -172,7 +172,11 @@ const TrendingSlide = ({
                         </button>
                       </div>
                     </div>
-                    <Link to="/">
+                    <Link
+                      to={`/event/${encodeURIComponent(
+                        event.location
+                      )}/${encodeURIComponent(event.id)}`}
+                    >
                       <div className="h-[200px] overflow-hidden">
                         <img
                           src={event.image}
@@ -184,7 +188,9 @@ const TrendingSlide = ({
                       </div>
                     </Link>
                     <Link
-                      to="/"
+                      to={`/event/${encodeURIComponent(
+                        event.location
+                      )}/${encodeURIComponent(event.id)}`}
                       className="gap-2 p-2 flex flex-col justify-between rounded-b-lg text-white"
                     >
                       <Helmet>

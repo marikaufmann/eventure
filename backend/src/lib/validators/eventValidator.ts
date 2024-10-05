@@ -1,4 +1,13 @@
-import { array, boolean, date, number, object, string, TypeOf, union } from "zod";
+import {
+  array,
+  boolean,
+  date,
+  number,
+  object,
+  string,
+  TypeOf,
+  union,
+} from "zod";
 
 export const getEventsValidator = object({
   body: object({
@@ -90,6 +99,9 @@ export const editEventValidator = object({
 export const getEventValidator = object({
   params: object({
     eventId: string({ required_error: "Event id is required." }),
+  }),
+  body: object({
+    location: string({ required_error: "Event location is required." }),
   }),
 });
 

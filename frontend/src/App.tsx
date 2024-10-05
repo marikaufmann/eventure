@@ -15,6 +15,7 @@ import Profile from "./pages/ProfilePage";
 import SavedEvents from "./pages/SavedEventsPage";
 import OnlineEvents from "./pages/OnlineEventsPage";
 import NotFound from "./pages/NotFoundPage";
+import EventPage from "./pages/EventPage";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
           <Route
             path="/categories/:category/:subcategory"
             element={<ExpandedEventsPage />}
+          />
+          <Route
+            path="/event/:eventLocation/:eventId"
+            element={<EventPage />}
           />
           <Route path="/locations" element={<Locations />} />
           <Route path="/locations/:country" element={<LocationPage />} />

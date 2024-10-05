@@ -6,11 +6,22 @@ const eventSchema = new mongoose.Schema(
     name: { type: String, required: true },
     image: { type: String, required: true },
     location: { type: String, required: true },
+    address: { type: String, required: true },
+    coordinates: {
+      longitude: { type: String },
+      latitude: { type: String },
+    },
+    url: { type: String },
     description: { type: String, required: true },
     additionalInfo: { type: String, required: true },
     category: { type: String, required: true },
     venues: [{ type: String, required: true }],
-    dates: { start: { type: Date, required: true }, end: { type: Date } },
+    dates: {
+      start: { type: Date, required: true },
+      end: { type: Date },
+      localStartDate: { type: Date },
+      localStartTime: { type: Date },
+    },
     sales: {
       public: { start: { type: Date, required: true }, end: { type: Date } },
       presales: [{ start: { type: Date }, end: { type: Date } }],

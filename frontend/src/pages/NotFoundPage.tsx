@@ -9,14 +9,14 @@ const NotFound = () => {
           <h1 className="text-3xl font-semibold">Page not found</h1>
           <p className="max-w-md">
             The page you are looking for was moved, removed, renamed or might
-            never have existed. If you’re still lost try using our search in the
+            never have existed. If you're still lost try using our search in the
             top menu or return to the homepage.
           </p>
           <Link
             to="/"
             className="flex items-center gap-2 bg-primary/70 rounded-sm w-[180px] py-2 px-4 justify-center font-medium shadow-lg shadow-primary/25 hover:bg-primary/80 hover:shadow-2xl"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
             Go back home
           </Link>
         </div>

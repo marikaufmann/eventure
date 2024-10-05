@@ -47,9 +47,8 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
       }
       return events.slice(0, 8);
     } else {
-
       const pageSize = 10;
-      
+
       if (events.length < 10) {
         return {
           events,
@@ -114,7 +113,6 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
               },
             }
           );
-
           const eventData = response.data._embedded?.events;
           if (!eventData || eventData.length === 0) {
             hasMore = false;
@@ -130,14 +128,12 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
             );
             if (similarEvents.length > 0) {
               if (!containsKeywords(event.name)) {
-
                 events = events.filter(
                   (uniqueEvent: FetchedEventType) =>
                     !isSimilarEvent(uniqueEvent, event)
                 );
                 events.push(event);
               } else {
-
                 events = events.filter(
                   (uniqueEvent: FetchedEventType) =>
                     !isSimilarEvent(uniqueEvent, event)
@@ -151,7 +147,6 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
                 }
               }
             } else if (!eventIds.has(event.id) && !eventNames.has(event.name)) {
-
               if (!containsKeywords(event.name)) {
                 events.push(event);
                 uniqueEvents.push(event);
@@ -260,6 +255,7 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
 
       const data = eventData.map(transformTicketmasterEvent);
 
+
       for (const event of data) {
         const similarEvents = uniqueEvents.filter((uniqueEvent) =>
           isSimilarEvent(uniqueEvent, event)
@@ -292,8 +288,6 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
 
       currentPage += 1;
       iterationCount += 1;
-
-   
     }
     await redis.set(
       cacheKey,
@@ -395,8 +389,6 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
 
       currentPage += 1;
       iterationCount += 1;
-
-  
     }
 
     await redis.set(
@@ -420,6 +412,40 @@ export const fetchAndCacheEvents = async (body: GetEventsRequest["body"]) => {
   }
 };
 
+export const findEvent = async ({
+  location,
+  eventId,
+}: {
+  location: string;
+  eventId: string;
+}) => {
+  const pattern = `events_${location}*`;
+  let cursor = 0;
+  let eventData = null;
+  do {
+    const [newCursor, keys] = await redis.scan(
+      cursor,
+      "MATCH",
+      pattern,
+      "COUNT",
+      10
+    );
+    cursor = Number(newCursor);
+    for (const key of keys) {
+      const data = await redis.get(key);
+      if (data) {
+        const { events } = JSON.parse(data);
+        const event = events.find((e: any) => e.id === eventId);
+        if (event) {
+          eventData = event;
+          break;
+        }
+      }
+    }
+  } while (cursor !== 0 && !eventData);
+  return eventData;
+};
+
 const transformTicketmasterEvent = (event: any): FetchedEventType => {
   const bestQualityImage = getBestQualityImage(event.images);
 
@@ -427,7 +453,17 @@ const transformTicketmasterEvent = (event: any): FetchedEventType => {
     id: event.id,
     name: event.name,
     image: bestQualityImage,
-    location: `${event._embedded.venues[0].city?.name}, ${event._embedded.venues[0].country?.name}`,
+    location: `${event._embedded.venues[0].city?.name}, ${
+      event._embedded.venues[0].country?.name === "United States Of America"
+        ? "United States"
+        : event._embedded.venues[0].country?.name
+    }`,
+    address: event._embedded.venues[0].address?.line1,
+    coordinates: {
+      longitude: event._embedded.venues[0].location.longitude,
+      latitude: event._embedded.venues[0].location.latitude,
+    },
+    url: event.url,
     description: event.info || "",
     category: event.classifications[0].segment.name,
     additionalInfo: event.pleaseNote || "",
@@ -435,6 +471,8 @@ const transformTicketmasterEvent = (event: any): FetchedEventType => {
     dates: {
       start: parseDate(event.dates.start.dateTime),
       end: event.dates.end ? parseDate(event.dates.end.dateTime) : undefined,
+      localStartDate: event.dates.start.localDate,
+      localStartTime: event.dates.start.localTime,
     },
     sales: {
       public: {

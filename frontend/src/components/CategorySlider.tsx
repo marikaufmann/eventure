@@ -184,7 +184,11 @@ const CategorySlider = ({
                             </button>
                           </div>
                         </div>
-                        <Link to="/">
+                        <Link
+                          to={`/event/${encodeURIComponent(
+                            event.location
+                          )}/${encodeURIComponent(event.id)}`}
+                        >
                           <div className="h-[150px] overflow-hidden">
                             <img
                               src={event.image}
@@ -196,7 +200,9 @@ const CategorySlider = ({
                           </div>
                         </Link>
                         <Link
-                          to="/"
+                          to={`/event/${encodeURIComponent(
+                            event.location
+                          )}/${encodeURIComponent(event.id)}`}
                           className="gap-2 p-2 flex flex-col justify-between rounded-b-lg "
                         >
                           <Helmet>

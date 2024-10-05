@@ -189,3 +189,30 @@ export const fetchEvents = async ({
     throw new Error("Something went wrong, please try again.");
   }
 };
+
+export const fetchEventDetails = async ({
+  location,
+  eventId,
+}: {
+  location: string;
+  eventId: string;
+}) => {
+  try {
+    const res = await axios.post(
+      `${API_BASE_URI}/api/events/${eventId}`,
+      { location },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      throw new Error(err.response?.data.message);
+    }
+    throw new Error("Something went wrong, please try again.");
+  }
+};

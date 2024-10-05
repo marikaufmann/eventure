@@ -25,11 +25,12 @@ router.post(
   createEvent
 );
 router.post(
-  "/:eventId",
+  "/save/:eventId",
   [requireUser, validateResource(getEventValidator)],
   saveEvent
 );
-router.get("/:eventId", validateResource(getEventValidator), getEvent);
+router.post("/:eventId", getEvent);
+// router.post("/:eventId", validateResource(getEventValidator), getEvent);
 router.put(
   "/:eventId",
   [requireUser, validateResource(editEventValidator)],

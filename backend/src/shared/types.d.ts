@@ -17,6 +17,12 @@ export type EventType = {
   name: string;
   image: string;
   location: string;
+  address: string;
+  coordinates?: {
+    longitude: string;
+    latitude: string;
+  };
+  url?: string;
   description: string;
   category: string;
   additionalInfo: string;
@@ -24,6 +30,8 @@ export type EventType = {
   dates: {
     start: Date;
     end?: Date;
+    localStartDate?: Date;
+    localStartTime?: Date;
   };
   sales: {
     public: {
@@ -51,22 +59,30 @@ export type FetchedEventType = {
   name: string;
   image: string;
   location: string;
+  address: string;
+  coordinates: {
+    longitude: string;
+    latitude: string;
+  };
+  url: string;
   description: string;
   category: string;
   additionalInfo: string;
   venues: string[];
   dates: {
-    start: Date | undefined;
-    end?: Date | undefined;
+    start?: Date;
+    end?: Date;
+    localStartDate?: Date;
+    localStartTime?: Date;
   };
   sales: {
     public: {
-      start: Date | undefined;
-      end?: Date | undefined;
+      start?: Date;
+      end?: Date;
     };
     presales?: {
-      start?: Date | undefined;
-      end?: Date | undefined;
+      start?: Date;
+      end?: Date;
     }[];
   };
   priceRange: {

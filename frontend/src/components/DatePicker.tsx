@@ -40,7 +40,7 @@ const DatePicker = ({
     } else {
       setDate(selectedDate as Date);
     }
-  }, []);
+  }, [selectedDate]);
   return (
     <div className="flex-1 h-full ">
       <Popover>
@@ -71,8 +71,10 @@ const DatePicker = ({
             }
             value={(date as Date)?.toISOString() || ""}
           >
-            <SelectTrigger className="text-base outline outline-2">
-              <SelectValue placeholder="Select" />
+            <SelectTrigger className="text-base outline outline-2 ">
+              <SelectValue placeholder="Select">
+                {date ? format(date, "PPP") : "Select"}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent position="popper" className="">
               <SelectItem className="text-base" value="0">
@@ -95,6 +97,7 @@ const DatePicker = ({
               disabled={isDateDisabled}
               selected={date}
               onSelect={setDate}
+              defaultMonth={date}
             />
           </div>
         </PopoverContent>
