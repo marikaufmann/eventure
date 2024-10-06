@@ -11,13 +11,20 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { formatDate } from "@/lib/utils";
 import { format } from "date-fns";
 import getSymbolFromCurrency from "currency-symbol-map";
+import Tooltip from "./Tooltip";
 
 const Slide = ({
   data,
   setIsOpen,
+  setCurrentEventUrl,
+  setCurrentEventTitle,
+  setCurrentEventImage,
 }: {
   data: UseQueryResult<FetchedEventType[]>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentEventUrl: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentEventTitle: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentEventImage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const events = data?.data;
   const isFetching = data?.isFetching;
@@ -76,7 +83,7 @@ const Slide = ({
         : events.slice(0, 6).map((event: FetchedEventType, index: number) => (
             <SwiperSlide
               key={index}
-              className="group hover:bg-black/5 h-[270px] rounded-sm overflow-hidden border-2 border-black"
+              className="group hover:bg-black/5 h-[270px] rounded-sm border-2 border-black"
             >
               <div className="h-full w-full relative rounded-sm">
                 <div
@@ -98,15 +105,30 @@ const Slide = ({
                 >
                   <div className="absolute top-2 right-2 z-[30] transition-all ease-in-out">
                     <div className="flex gap-2">
-                      <button
-                        onClick={() => setIsOpen(true)}
-                        className="p-2 rounded-full hover:bg-white bg-white/70"
-                      >
-                        <SquareArrowOutUpRight className="text-black w-5 h-5 hover:text-primary" />
-                      </button>
-                      <button className="p-2 rounded-full hover:bg-white bg-white/70 hover:fill-primary">
-                        <Heart className="w-5 h-5 text-black hover:fill-primary hover:text-primary" />
-                      </button>
+                      <Tooltip text="Share event">
+                        <button
+                          onClick={() => {
+                            setIsOpen(true);
+                            setCurrentEventUrl(
+                              `${
+                                import.meta.env.VITE_FRONTEND_URI
+                              }/event/${encodeURIComponent(
+                                event.location
+                              )}/${encodeURIComponent(event.id)}`
+                            );
+                            setCurrentEventImage(event.image);
+                            setCurrentEventTitle(event.name);
+                          }}
+                          className="p-2 rounded-full hover:bg-white bg-white/70"
+                        >
+                          <SquareArrowOutUpRight className="text-black w-5 h-5 hover:text-primary" />
+                        </button>
+                      </Tooltip>
+                      <Tooltip text="Save event">
+                        <button className="p-2 rounded-full hover:bg-white bg-white/70 hover:fill-primary">
+                          <Heart className="w-5 h-5 text-black hover:fill-primary hover:text-primary" />
+                        </button>
+                      </Tooltip>
                     </div>
                   </div>
                   <Link
@@ -136,9 +158,11 @@ const Slide = ({
                       <meta property="og:type" content="website" />
                       <meta
                         property="og:url"
-                        content={`${import.meta.env.VITE_FRONTEND_URI}/${
-                          event.id
-                        }`}
+                        content={`${
+                          import.meta.env.VITE_FRONTEND_URI
+                        }/event/${encodeURIComponent(
+                          event.location
+                        )}/${encodeURIComponent(event.id)}`}
                       />
                       <meta property="og:image" content={event.image} />
                       <meta

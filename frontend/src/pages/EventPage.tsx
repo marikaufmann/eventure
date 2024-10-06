@@ -16,10 +16,14 @@ import {
   ArrowLeft,
   CalendarClock,
   CalendarPlus,
+  Heart,
   MapPin,
   Sparkles,
+  SquareArrowOutUpRight,
 } from "lucide-react";
 import { format, parse } from "date-fns";
+import Tooltip from "@/components/Tooltip";
+import ShareEvent from "@/components/ShareEvent";
 
 const EventPage = () => {
   const { pathname } = useLocation();
@@ -38,6 +42,10 @@ const EventPage = () => {
       }),
   });
   const [showPreloader, setShowPreloader] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentEventUrl, setCurrentEventUrl] = useState("");
+  const [currentEventImage, setCurrentEventImage] = useState("");
+  const [currentEventTitle, setCurrentEventTitle] = useState("");
   const styles = showPreloader ? "flex w-full h-full" : "hidden";
   const redIcon = new L.Icon({
     iconUrl:
@@ -90,6 +98,13 @@ const EventPage = () => {
         </>
       ) : (
         <>
+          <ShareEvent
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            currentEventUrl={currentEventUrl}
+            currentEventImage={currentEventImage}
+            currentEventTitle={currentEventTitle}
+          />
           <div className="absolute inset-0 lg:mt-24 mt-20">
             <div
               className="absolute inset-0 bg-black h-[400px]   lg:-mt-2 -mt-1
@@ -258,6 +273,32 @@ const EventPage = () => {
                 )}
               </div>
               <div className="flex flex-col laptop:w-[40%] gap-8 ">
+                <div className="flex gap-4 justify-end w-full">
+                  <Tooltip text="Share event">
+                    <button
+                      onClick={() => {
+                        setIsOpen(true);
+                        setCurrentEventUrl(
+                          `${
+                            import.meta.env.VITE_FRONTEND_URI
+                          }/event/${encodeURIComponent(
+                            eventData.location
+                          )}/${encodeURIComponent(eventData.id)}`
+                        );
+                        setCurrentEventImage(eventData.image);
+                        setCurrentEventTitle(eventData.name);
+                      }}
+                      className="p-2 rounded-sm outline hover:bg-black/15  bg-white/70 z-20"
+                    >
+                      <SquareArrowOutUpRight className="text-black w-6 h-6 hover:text-primary" />
+                    </button>
+                  </Tooltip>
+                  <Tooltip text="Save event">
+                    <button className="p-2 rounded-sm outline hover:bg-black/15  z-20">
+                      <Heart className="w-6 h-6 text-black hover:fill-primary hover:text-primary" />
+                    </button>
+                  </Tooltip>
+                </div>
                 <div className="flex max-laptop:fixed max-laptop:inset-x-0 max-laptop:bottom-0 max-laptop:z-50  items-center justify-center flex-col outline outline-2 laptop:rounded-sm shadow-lg text-lg bg-white w-full">
                   <p className="border-b-2 w-full border-black p-4 text-center max-laptop:p-6">
                     {eventData.priceRange.min === null ? (

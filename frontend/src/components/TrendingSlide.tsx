@@ -12,6 +12,7 @@ import * as apiClient from "@/api-client";
 import { format } from "date-fns";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { formatDate } from "@/lib/utils";
+import Tooltip from "./Tooltip";
 
 const TrendingSlide = ({
   location,
@@ -22,6 +23,9 @@ const TrendingSlide = ({
   setIsFetchedEventsForManualUsersCapitalLocation,
   setHasTrendingEvents,
   locationFetchStatus,
+  setCurrentEventUrl,
+  setCurrentEventTitle,
+  setCurrentEventImage,
 }: {
   location: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,6 +43,9 @@ const TrendingSlide = ({
   >;
   setHasTrendingEvents: React.Dispatch<React.SetStateAction<boolean>>;
   locationFetchStatus: string;
+  setCurrentEventUrl: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentEventTitle: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentEventImage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const { width } = useWindowDimentions();
   const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>(
@@ -145,7 +152,7 @@ const TrendingSlide = ({
             .map((event: FetchedEventType, index: number) => (
               <SwiperSlide
                 key={index}
-                className="group rounded-sm h-[350px] border-white/50 border overflow-hidden hover:bg-white/5"
+                className="group rounded-sm h-[350px] border-white/50 border  hover:bg-white/5"
               >
                 <div className="h-full w-full relative">
                   {loadingState[event.name] && (
@@ -161,15 +168,30 @@ const TrendingSlide = ({
                   <div>
                     <div className="absolute top-2 right-2 z-[30] transition-all ease-in-out">
                       <div className="flex gap-2">
-                        <button
-                          onClick={() => setIsOpen(true)}
-                          className="p-2 rounded-full hover:bg-white bg-white/70"
-                        >
-                          <SquareArrowOutUpRight className="text-black w-5 h-5 hover:text-primary" />
-                        </button>
-                        <button className="p-2 rounded-full hover:bg-white bg-white/70 hover:fill-primary">
-                          <Heart className="w-5 h-5 text-black hover:fill-primary hover:text-primary" />
-                        </button>
+                        <Tooltip text="Share event">
+                          <button
+                            onClick={() => {
+                              setIsOpen(true);
+                              setCurrentEventUrl(
+                                `${
+                                  import.meta.env.VITE_FRONTEND_URI
+                                }/event/${encodeURIComponent(
+                                  event.location
+                                )}/${encodeURIComponent(event.id)}`
+                              );
+                              setCurrentEventImage(event.image);
+                              setCurrentEventTitle(event.name);
+                            }}
+                            className="p-2 rounded-full hover:bg-white bg-white/70"
+                          >
+                            <SquareArrowOutUpRight className="text-black w-5 h-5 hover:text-primary" />
+                          </button>
+                        </Tooltip>
+                        <Tooltip text="Save event">
+                          <button className="p-2 rounded-full hover:bg-white bg-white/70 hover:fill-primary">
+                            <Heart className="w-5 h-5 text-black hover:fill-primary hover:text-primary" />
+                          </button>
+                        </Tooltip>
                       </div>
                     </div>
                     <Link
@@ -199,9 +221,11 @@ const TrendingSlide = ({
                         <meta property="og:type" content="website" />
                         <meta
                           property="og:url"
-                          content={`${import.meta.env.VITE_FRONTEND_URI}/${
-                            event.id
-                          }`}
+                          content={`${
+                            import.meta.env.VITE_FRONTEND_URI
+                          }/event/${encodeURIComponent(
+                            event.location
+                          )}/${encodeURIComponent(event.id)}`}
                         />
                         <meta property="og:image" content={event.image} />
                         <meta
